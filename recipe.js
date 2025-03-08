@@ -269,11 +269,11 @@ mixResults.forEach((value, sourceIndex) => {
 
 function humanReadableMethod(method) {
     switch(method) {
-        case "cutting": return "썰어서";
-        case "grilling": return "직화로 구워서";
+        case "cutting": return "도마에서 썰어서";
+        case "grilling": return "그릴에 구워서";
         case "frying": return "튀겨서";
-        case "pot": return "끓여서";
-        case "pan": return "팬에 구워서";
+        case "pot": return "솥에 쪄서";
+        case "pan": return "팬에 볶아서";
         case "impact": return "던져서";
         case "mix": return "섞어서";
     }
