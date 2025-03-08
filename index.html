@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 레시피 설명</title>
+    <script src="recipe.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        select, button { padding: 10px; margin: 10px 0; }
+        #recipeDisplay { white-space: pre-line; background: #f9f9f9; padding: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>요리 레시피 설명</h1>
+    <label for="menuSelect">음식을 선택하세요:</label>
+    <select id="menuSelect"></select>
+    <h2>레시피</h2>
+    <div id="recipeDisplay"></div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let menuSelect = document.getElementById("menuSelect");
+            let recipeDisplay = document.getElementById("recipeDisplay");
+            
+            menus.forEach(menuId => {
+                let option = document.createElement("option");
+                option.value = menuId;
+                option.textContent = foodNames[menuId];
+                menuSelect.appendChild(option);
+            });
+            
+            // 기본 선택된 아이템의 레시피 표시
+            showRecipe();
+            
+            // 선택 변경 시 자동 업데이트
+            menuSelect.addEventListener("change", showRecipe);
+        });
+
+        function showRecipe() {
+            let menuId = document.getElementById("menuSelect").value;
+            let recipeText = humanReadableRecipe(Number(menuId));
+            document.getElementById("recipeDisplay").textContent = recipeText;
+        }
+    </script>
+</body>
+</html>
