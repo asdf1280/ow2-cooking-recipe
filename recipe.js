@@ -233,8 +233,6 @@ console.log("cuttingResults", cuttingResults);
 let menus = parseMenuArray(MENU_LISTS);
 let hazardMenus = parseMenuArray(HAZARD_MENU_LISTS);
 
-menus.push(...hazardMenus);
-
 /**
  * @type {Record<number, {method: string, items: number[]}[]>}
  */

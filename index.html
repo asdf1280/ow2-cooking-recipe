@@ -24,12 +24,20 @@
             let menuSelect = document.getElementById("menuSelect");
             let recipeDisplay = document.getElementById("recipeDisplay");
             
-            menus.forEach(menuId => {
+            let x = menuId => {
                 let option = document.createElement("option");
                 option.value = menuId;
                 option.textContent = foodNames[menuId];
                 menuSelect.appendChild(option);
-            });
+            };
+            menus.forEach(x);
+            {
+                let option = document.createElement("option");
+                option.value = null;
+                option.textContent = "----------";
+                menuSelect.appendChild(option);
+            }
+            hazardMenus.forEach(x);
             
             // 기본 선택된 아이템의 레시피 표시
             showRecipe();
@@ -40,6 +48,10 @@
 
         function showRecipe() {
             let menuId = document.getElementById("menuSelect").value;
+            if(menuId === 'null') {
+                document.getElementById("recipeDisplay").textContent = "요리를 선택하세요";
+                return;
+            }
             let recipeText = humanReadableRecipe(Number(menuId));
             document.getElementById("recipeDisplay").textContent = recipeText;
         }
