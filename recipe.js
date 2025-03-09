@@ -28,6 +28,20 @@ const FOOD_NAMES = `Global.ITEM_NAME = Append To Array(String Split(Custom Strin
 			"자장면/썬 두부+김치/두부 볶음+김치/삶은 밀가루 중면/삶은 밀가루 소면/삶은 수제비 반죽/떡국용 떡/떡국/만둣국/떡만둣국/계란 반죽/고기 반죽/동그랑땡/고급 부엌칼")), Custom String("/")),
 			Empty Array)))))))));`;
 
+const ITEM_COLORS = `Global.ITEM_COLOR = Mapped Array(String Split(Custom String(
+			"D/R/R/M/M/Y/Y/Y/Y/Y/Y/Y/W/W/R/R/R/R/W/Y/Y/Y/O/O/R/W/O/O/W/W/O/R/M/L/L/G/G/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/H/L/T{0}",
+			Custom String(
+			"/T/T/T/W/W/W/G/G/G/W/R/S/Y/R/S/S/C/M/F/F/F/M/M/C/R/S/C/M/V/V/W/V/Y/S/C/R/F/F/F/Y/Y/Y/R/Y/S/Y/Y/Y/Y/W/Y/F/F/F/F/F/F/F/R/A/M/A/{0}",
+			Custom String(
+			"F/H/F/F/F/F/F/R/A/Y/P/Y/R/M/M/H/Y/C/C/C/C/C/W/W/W/W/W/S/R/R/S/S/O/O/A/A/A/M/M/W/M/W/C/G/O/A/C/C/O/A/A/C/C/G/A/A/C/A/C/A/F/F/F{0}",
+			Custom String("/G/C/M/G/C/M/W/W/M/M/B/W/W/W/F/O/O/S/S/S/W/F/F/W/S/F/M/M/W/W/Y/Y/M/F/F/M/F/M/M{0}", Custom String(
+			"/F/F/F/F/F/F/F/F/F/F/F/F/F/F/P/C/P/C/S/P/C/P/C/P/C/S/C/C/W/W/W/W/P/P/P/Y/F/M/G{0}", Custom String("")))))), Custom String(
+			"/")), Array(Color(Black), Color(Red), Custom Color(180, 100, False, 255), Color(Yellow), Color(White), Color(Lime Green),
+			Color(Green), Custom Color(255, 200, 100, 255), Color(Turquoise), Custom Color(100, 60, False, 255), Custom Color(255, 65,
+			False, 255), Custom Color(255, 255, 190, 255), Custom Color(False, 125, False, 255), Color(Orange), Custom Color(246, 86, 86,
+			255), Custom Color(250, 150, 70, 255), Color(Sky Blue))[Index Of Array Value(String Split(Custom String(
+			"D/R/M/Y/W/L/G/H/T/S/C/F/V/O/A/P/B"), Custom String("/")), Current Array Element)]);`;
+
 const CUTTING_RESULTS = `Global.CUTTING_RESULT = Array(False, 2, 154, False, False, 6, False, False, False, 10, False, False, False, False, 15, False,
 			False, False, False, 20, False, False, False, False, False, False, False, False, False, False, False, False, False, 34, False,
 			False, False, Array(38, 39), 140, 140, False, False, False, False, False, False, False, False, False, False, False, False,
@@ -190,11 +204,10 @@ for (let i = 0; i < foodNames.length; i++) {
 	console.log(i, foodNames[i]);
 }
 
+const itemColors = parseSlashStrings(ITEM_COLORS);
+console.log(itemColors);
+
 const stageNames = parseSlashStrings(STAGE_NAMES);
-console.log("List of stage names: ");
-for (let i = 0; i < stageNames.length; i++) {
-	console.log(i, stageNames[i]);
-}
 
 /**
  * 
@@ -560,13 +573,13 @@ function explainRecipe(recipeId) {
 		if (step.method === "mix") {
 			let ingredientA = step.ingredients[0];
 			let ingredientB = step.ingredients[1];
-			recipe.push(`'${foodNames[ingredientA]}'와 '${foodNames[ingredientB]}' 섞어서 '${foodNames[step.itemId]}' 만들기.`);
+			recipe.push(`'${htmlItemName(ingredientA)}'와 '${htmlItemName(ingredientB)}' 섞어서 '${htmlItemName(step.itemId)}' 만들기.`);
 		} else if (step.method === "premade") {
-			recipe.push(`방금 제작한 '${foodNames[step.ingredients[0]]}' 가져오기.`);
+			recipe.push(`방금 제작한 '${htmlItemName(step.ingredients[0])}' 가져오기.`);
 		} else if (step.method !== "fridge") {
 			let ingredient = step.ingredients[0];
 			let methodStr = humanReadableMethod(step.method);
-			recipe.push(`'${foodNames[ingredient]}' ${methodStr} '${foodNames[step.itemId]}' 만들기.`);
+			recipe.push(`'${htmlItemName(ingredient)}' ${methodStr} '${htmlItemName(step.itemId)}' 만들기.`);
 		}
 		if (step.method === "fridge") {
 			if (step.itemId in ingredients) {
@@ -580,16 +593,21 @@ function explainRecipe(recipeId) {
 	return [recipe, ingredients];
 }
 
+function htmlItemName(itemId) {
+	// class name is .item-color-<character>
+	return `<span class="item item-color-${itemColors[itemId]}">${foodNames[itemId]}</span>`;
+}
+
 function humanReadableRecipe(recipeId) {
 	let [recipe, ingredients] = explainRecipe(recipeId);
 	let recipeStr = recipe.join("\n\n");
 	let ingredientsStr = ``;
 	for (let itemId in ingredients) {
 		let count = ingredients[itemId];
-		ingredientsStr += `${foodNames[itemId]} x ${count}\n`;
+		ingredientsStr += `${htmlItemName(itemId)} x ${count}\n`;
 	}
 
-	let result = `재료:\n\n${ingredientsStr}\n\n조리법:\n\n${recipeStr}\n\n\n'${foodNames[recipeId]}' 완성!`;
+	let result = `재료:\n\n${ingredientsStr}\n\n조리법:\n\n${recipeStr}\n\n\n'${htmlItemName(recipeId)}' 완성!`;
 	return result;
 }
 

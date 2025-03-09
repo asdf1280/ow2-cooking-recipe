@@ -25,6 +25,96 @@
             padding: 10px;
             border: 1px solid #ddd;
         }
+
+        .item-color-D {
+            background-color: black;
+            color: white;
+        }
+
+        .item-color-R {
+            background-color: red;
+            color: white;
+        }
+
+        .item-color-M {
+            background-color: rgb(180, 100, 0);
+            color: white;
+        }
+
+        .item-color-Y {
+            background-color: yellow;
+            color: black;
+        }
+
+        .item-color-W {
+            background-color: rgb(219, 219, 219);
+            color: black;
+        }
+
+        .item-color-L {
+            background-color: limegreen;
+            color: black;
+        }
+
+        .item-color-G {
+            background-color: green;
+            color: black;
+        }
+
+        .item-color-H {
+            background-color: rgb(255, 200, 100);
+            color: black;
+        }
+
+        .item-color-T {
+            background-color: turquoise;
+            color: black;
+        }
+
+        .item-color-S {
+            background-color: rgb(100, 60, 0);
+            color: white;
+        }
+
+        .item-color-C {
+            background-color: rgb(255, 65, 0);
+            color: white;
+        }
+
+        .item-color-F {
+            background-color: rgb(255, 255, 190);
+            color: black;
+        }
+
+        .item-color-V {
+            background-color: rgb(0, 125, 0);
+            color: white;
+        }
+
+        .item-color-O {
+            background-color: orange;
+            color: black;
+        }
+
+        .item-color-A {
+            background-color: rgb(246, 86, 86);
+            color: white;
+        }
+
+        .item-color-P {
+            background-color: rgb(250, 150, 70);
+            color: black;
+        }
+
+        .item-color-B {
+            background-color: skyblue;
+            color: black;
+        }
+
+        .item {
+            padding: 3px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 
@@ -81,7 +171,7 @@
                     }
                 }
 
-                if(stageId === -1) {
+                if (stageId === -1) {
                     for (let i = 0; i < menus.length; i++) {
                         addListItem(`=== 스테이지: ${stageNames[i]} ===`, null);
                         addMenusForStage(i);
@@ -109,7 +199,7 @@
                 return;
             }
             let recipeText = humanReadableRecipe(Number(menuId));
-            document.getElementById("recipeDisplay").textContent = recipeText;
+            document.getElementById("recipeDisplay").innerHTML = recipeText;
         }
     </script>
 
@@ -119,6 +209,7 @@
     <ul>
         <li>레시피 계산 알고리즘 개선. 이제 반복되는 조리를 축약하여 알려주며, 불필요한 찌꺼기를 남기지 않습니다.</li>
         <li>음식을 스테이지별로 분류했습니다.</li>
+        <li>음식 색상 표시가 추가되었습니다.</li>
     </ul>
 </body>
 
