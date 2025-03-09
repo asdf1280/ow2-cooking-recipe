@@ -157,30 +157,43 @@ const HAZARD_MENU_LISTS = `Global.HAZARD_MENU_LIST = Array(Array(0, 0, 0, 8, 9, 
 			109, 110, 111, 162, 163, 164, 165, 166, 194, 195, 204, 218, 84, 85, 90), Array(0, 0, 0, 190, 109, 110, 101, 102, 103, 120, 145,
 			143));`;
 
+const STAGE_NAMES = `Global.STAGE_NAME = String Split(Custom String("스테이크&파스타/수제 버거/치킨/피자/만두/달걀&밥/생선&밥/국수"), Custom String("/"));`;
+
 // Parsing food names from the workshop script.
-let foodNames = [];
-let tmpFoodStr = FOOD_NAMES.split("String Split(");
-for (let i = 1; i < tmpFoodStr.length; i++) {
-	let tmpAccumStr = "";
-	let tmpStr = tmpFoodStr[i].split("Custom String(");
-	for (let j = 1; j < tmpStr.length; j++) {
-		let str = tmpStr[j];
-		let start = str.indexOf("\"");
-		let end = str.indexOf("\"", start + 1);
-		str = str.substring(start + 1, end); // Remove the first quote.
-		if (str.endsWith("{0}")) {
-			str = str.substring(0, str.length - 3);
-			tmpAccumStr += str;
-		} else {
-			tmpAccumStr += str;
-			break;
+function parseSlashStrings(str) {
+	let arr = [];
+	let temp = str.split("String Split(");
+	for (let i = 1; i < temp.length; i++) {
+		let tmpAccumStr = "";
+		let tmpStr = temp[i].split("Custom String(");
+		for (let j = 1; j < tmpStr.length; j++) {
+			let str = tmpStr[j];
+			let start = str.indexOf("\"");
+			let end = str.indexOf("\"", start + 1);
+			str = str.substring(start + 1, end); // Remove the first quote.
+			if (str.endsWith("{0}")) {
+				str = str.substring(0, str.length - 3);
+				tmpAccumStr += str;
+			} else {
+				tmpAccumStr += str;
+				break;
+			}
 		}
+		arr.push(...tmpAccumStr.split("/"));
 	}
-	foodNames.push(...tmpAccumStr.split("/"));
+	return arr;
 }
+
+const foodNames = parseSlashStrings(FOOD_NAMES);
 console.log("List of food names: ");
 for (let i = 0; i < foodNames.length; i++) {
 	console.log(i, foodNames[i]);
+}
+
+const stageNames = parseSlashStrings(STAGE_NAMES);
+console.log("List of stage names: ");
+for (let i = 0; i < stageNames.length; i++) {
+	console.log(i, stageNames[i]);
 }
 
 /**
@@ -543,20 +556,20 @@ function explainRecipe(recipeId) {
 	let ingredients = {};
 
 	let steps = calculateRecipeV2(recipeId);
-	for(let step of steps) {
+	for (let step of steps) {
 		if (step.method === "mix") {
 			let ingredientA = step.ingredients[0];
 			let ingredientB = step.ingredients[1];
 			recipe.push(`'${foodNames[ingredientA]}'와 '${foodNames[ingredientB]}' 섞어서 '${foodNames[recipeId]}' 만들기.`);
-		} else if(step.method === "premade") {
+		} else if (step.method === "premade") {
 			recipe.push(`준비된 '${foodNames[step.ingredients[0]]}' 가져오기.`);
-		} else if(step.method !== "fridge") {
+		} else if (step.method !== "fridge") {
 			let ingredient = step.ingredients[0];
 			let methodStr = humanReadableMethod(step.method);
 			recipe.push(`'${foodNames[ingredient]}' ${methodStr} '${foodNames[recipeId]}' 만들기.`);
 		}
-		if(step.method === "fridge") {
-			if(step.itemId in ingredients) {
+		if (step.method === "fridge") {
+			if (step.itemId in ingredients) {
 				ingredients[step.itemId]++;
 			} else {
 				ingredients[step.itemId] = 1;
@@ -571,7 +584,7 @@ function humanReadableRecipe(recipeId) {
 	let [recipe, ingredients] = explainRecipe(recipeId);
 	let recipeStr = recipe.join("\n\n");
 	let ingredientsStr = ``;
-	for(let itemId in ingredients) {
+	for (let itemId in ingredients) {
 		let count = ingredients[itemId];
 		ingredientsStr += `${foodNames[itemId]} x ${count}\n`;
 	}

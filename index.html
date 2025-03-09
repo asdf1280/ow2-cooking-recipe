@@ -47,19 +47,20 @@
                 option.textContent = text;
                 menuSelect.appendChild(option);
             }
-            addListItem("=== 일반 요리 ===", null);
-            for(let menuList of menus) {
-                for(let item of menuList) {
+
+            for (let i = 0; i < stageNames.length; i++) {
+                addListItem(`=== 스테이지: ${stageNames[i]} ===`, null);
+                for (let item of menus[i]) {
                     addListItem(foodNames[item], item);
                 }
                 addListItem("-----------", null);
-            }
-            addListItem("=== 괴식들 ===", null);
-            for(let menuList of hazardMenus) {
-                for(let item of menuList) {
-                    addListItem(foodNames[item], item);
+                let processedTrashes = [];
+                for (let item of hazardMenus[i]) {
+                    if (!processedTrashes.includes(item)) {
+                        addListItem(foodNames[item], item);
+                        processedTrashes.push(item);
+                    }
                 }
-                addListItem("-----------", null);
             }
 
             // 기본 선택된 아이템의 레시피 표시
