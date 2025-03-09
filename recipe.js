@@ -1,3 +1,5 @@
+/// <reference path="./types.d.ts" />
+
 // 워크샵 코드에서 Data init 부분을 찾아서 아래와 같이 붙여넣으면 자동으로 파싱합니다.
 const FOOD_NAMES = `Global.ITEM_NAME = Append To Array(String Split(Custom String(
 			"탄 음식/소고기/썬 소고기/스테이크/찹스테이크/감자/썬 감자/감자튀김/구운 감자/찐 감자/으깬 감자/볶은 감자/파스타/삶은 파스타/토마토/썬 토마토/구운 토마토/토마토 소스/크림 소스/치즈/슬라이스 치즈/녹인 치즈/로제{0}",
@@ -184,8 +186,12 @@ for (let i = 0; i < foodNames.length; i++) {
 /**
  * 
  * @param {string} str 
+ * @returns {[Array<null | number | number[]>, string]} Pair of parsed workshop array and remaining str
  */
 function parseWorkshopArray(str) {
+	/**
+	 * @type {Array<null | number | number[]>}
+	 */
 	let res = [];
 
 	str = str.substring(str.indexOf("Array(") + 6);
@@ -234,14 +240,14 @@ let menus = parseMenuArray(MENU_LISTS);
 let hazardMenus = parseMenuArray(HAZARD_MENU_LISTS);
 
 /**
- * @type {Record<number, {method: string, items: number[]}[]>}
+ * @type {Record<number, {method: CookMethod, items: number[], output: number[]}[]>}
  */
 let recipeReversedMap = {};
 
 /**
  * 
  * @param {number} resultId 
- * @param {{method: string, items: number[]}} methodObj 
+ * @param {{method: CookMethod, items: number[], output: number[]}} methodObj 
  */
 function storeMethod(resultId, methodObj) {
 	if (typeof resultId !== "number") { // array
@@ -258,39 +264,53 @@ function storeMethod(resultId, methodObj) {
 
 cuttingResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
-	storeMethod(value, { method: "cutting", items: [sourceIndex] });
+	let output = value;
+	if (typeof output == "number") output = [value];
+	storeMethod(value, { method: "cutting", items: [sourceIndex], output });
 });
 
 grillingResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
-	storeMethod(value, { method: "grilling", items: [sourceIndex] });
+	let output = value;
+	if (typeof output == "number") output = [value];
+	storeMethod(value, { method: "grilling", items: [sourceIndex], output });
 });
 
 fryingResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
-	storeMethod(value, { method: "frying", items: [sourceIndex] });
+	let output = value;
+	if (typeof output == "number") output = [value];
+	storeMethod(value, { method: "frying", items: [sourceIndex], output });
 });
 
 potResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
-	storeMethod(value, { method: "pot", items: [sourceIndex] });
+	let output = value;
+	if (typeof output == "number") output = [value];
+	storeMethod(value, { method: "pot", items: [sourceIndex], output });
 });
 
 panResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
-	storeMethod(value, { method: "pan", items: [sourceIndex] });
+	let output = value;
+	if (typeof output == "number") output = [value];
+	storeMethod(value, { method: "pan", items: [sourceIndex], output });
 });
 
 impactResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
-	storeMethod(value, { method: "impact", items: [sourceIndex] });
+	let output = value;
+	if (typeof output == "number") output = [value];
+	storeMethod(value, { method: "impact", items: [sourceIndex], output });
 });
 
 mixResults.forEach((value, sourceIndex) => {
 	let recipe = mixRecipes[sourceIndex];
 	let ingredientA = recipe % 1000;
 	let ingredientB = Math.floor(recipe / 1000);
-	storeMethod(value, { method: "mix", items: [ingredientA, ingredientB] });
+	let output = value;
+	if (typeof output == "number") output = [value];
+	storeMethod(value, { method: "mix", items: [ingredientA, ingredientB], output });
 });
 
 function humanReadableMethod(method) {
@@ -308,55 +328,239 @@ function humanReadableMethod(method) {
 /**
  * 
  * @param {number} recipeId 
- * @returns {[string[], [number, number][]]} how to cook, and list and count of ingredients.
+ * @returns {FlatRecipe[]}
+ */
+function calculateRecipeV2(recipeId) {
+	/**
+	 * 
+	 * @param {number} item 
+	 * @returns {Recipe}
+	 */
+	const calculateFullRecipe = (itemId) => {
+		/**
+		 * @type {[number, Recipe][]}
+		 */
+		let calculationQueue = []; // itemId, parent recipe or null
+
+		calculationQueue.push([itemId, null]);
+
+		/**
+		 * @type {Recipe}
+		 */
+		let result;
+
+		/**
+		 * @type {number[]}
+		 */
+		let inventory = [];
+
+		while (calculationQueue.length > 0) {
+			/**
+			 * @type {[number, Recipe]}
+			 */
+			let [nid, recipe] = calculationQueue.shift();
+
+			/**
+			 * @type {Recipe}
+			 */
+			let m = {
+				ingredients: [],
+				method: "fridge",
+				itemId: nid,
+				fullOutput: [nid],
+				repeat: 1
+			}
+			if (recipe === null) {
+				result = m;
+			} else {
+				recipe.ingredients.push(m)
+			}
+
+			if (recipeReversedMap[nid] === undefined) {
+			} else if (inventory.includes(nid)) {
+				inventory.splice(inventory.indexOf(nid), 1);
+				m.method = "premade";
+			} else {
+				let d = recipeReversedMap[nid][0];
+				m.method = d.method;
+				m.fullOutput = d.output;
+				inventory.push(...d.output);
+				inventory.splice(inventory.indexOf(nid), 1);
+				let insertAt = 0;
+				d.items.forEach(element => {
+					calculationQueue.splice(insertAt++, 0, [element, m]);
+				});
+			}
+		}
+
+		return result;
+	}
+
+	// const debugRecipe = (recipe) => {
+	// 	let steps = getRecipeSteps(recipe);
+	// 	/**
+	// 	 * @type {Array<number>}
+	// 	 */
+	// 	let inventory = [];
+
+	// 	steps.forEach(element => {
+	// 		for (let i = 0; i < element.repeat; i++) {
+	// 			element.ingredients.forEach((a) => {
+	// 				let d = inventory.lastIndexOf(a); // Must be last index of for proper leftover removal.
+	// 				if (d != -1) inventory.splice(d, 1);
+	// 			})
+	// 			if (element.method !== "premade")
+	// 				element.fullOutput.forEach((a) => {
+	// 					inventory.push(a);
+	// 				})
+	// 		}
+
+	// 		// Debugging
+	// 		console.log(element.ingredients.map((v) => foodNames[v]), element.method, foodNames[element.itemId], '*', element.repeat);
+	// 	});
+
+	// 	console.log("Items left:", inventory);
+	// }
+
+	// Recipe flattening
+	/**
+	 * 
+	 * @param {Recipe} recipe 
+	 * @returns {Array<FlatRecipe>}
+	 */
+	const getRecipeSteps = (recipe) => {
+		/**
+		 * @type {Array<FlatRecipe>}
+		 */
+		let steps = [];
+		/**
+		 * 
+		 * @param {Recipe} recipe 
+		 */
+		const appendStep = (recipe) => {
+			recipe.ingredients.forEach(element => {
+				appendStep(element);
+			});
+			steps.push({
+				ingredients: recipe.ingredients.map((a) => a.itemId),
+				itemId: recipe.itemId,
+				method: recipe.method,
+				fullOutput: recipe.fullOutput,
+				repeat: recipe.repeat
+			})
+		}
+		appendStep(recipe);
+		return steps;
+	}
+
+	let recipe = calculateFullRecipe(recipeId);
+
+	// Iterate backward, and eliminate repetitive recipes
+	/**
+	 * Parent recipe, and indication of child ingredient to check.
+	 * @type {Array<[Recipe, number]>}
+	 */
+	let derepeatStack = [];
+	recipe.ingredients.forEach((_, i) => {
+		derepeatStack.splice(i, 0, [recipe, i]);
+	})
+	while (derepeatStack.length > 0) {
+		/**
+		 * @type {[Recipe, number]}
+		 */
+		let [a, b] = derepeatStack.pop();
+		let c = a.ingredients[b];
+
+		/**
+		 * 
+		 * @param {Recipe} recipe 
+		 * @returns {boolean}
+		 */
+		const aa = (recipe) => {
+			if (recipe.method === "premade") return false;
+			return recipe.ingredients.map((v) => aa(v)).reduce((a, b) => a && b, true);
+		}
+		if (!aa(c)) continue;
+
+		// If there's repetition, remove it.
+
+		/**
+		 * Parent recipe, and indication of child ingredient to check.
+		 * @type {Array<[Recipe, number]>}
+		 */
+		let checkStack = [];
+		for (let i = 0; i < b; i++) {
+			checkStack.splice(i, 0, [a, i]);
+		}
+		while (checkStack.length > 0) {
+			/**
+			 * @type {[Recipe, number]}
+			 */
+			let [d, e] = checkStack.pop();
+			let f = d.ingredients[e];
+			if (f.itemId === c.itemId && f.ingredients.length > 0) { // Found repetition of same recipe.
+				// Remove from the list
+				c.ingredients = [];
+				c.method = "premade";
+				c.fullOutput = [c.itemId];
+
+				// add all repeats of f and children by c.repeat
+				const aa = (r) => {
+					r.repeat += c.repeat;
+					r.ingredients.forEach(element => {
+						aa(element);
+					});
+				}
+				aa(f);
+			} else {
+				f.ingredients.forEach((_, i) => {
+					checkStack.splice(i, 0, [f, i]);
+				});
+			}
+		}
+
+		c.ingredients.forEach((_, i) => {
+			derepeatStack.splice(i, 0, [c, i]);
+		});
+	}
+	// Derepetition complete.
+
+	return getRecipeSteps(recipe);
+}
+
+// For test debugging
+menus.forEach(element => {
+	calculateRecipeV2(element);
+});
+
+/**
+ * 
+ * @param {number} recipeId 
+ * @returns {[string, Record<number, number>]}
  */
 function explainRecipe(recipeId) {
 	let recipe = [];
-	let ingredients = [];
+	let ingredients = {};
 
-	/**
-	 * 
-	 * @param {[number, number][]} items 
-	 */
-	function addAllIngredients(items) {
-		// If the recipeId is in ingredients, add count(second entry) by 1. Otherwise, add it to the list with count 1.
-		for (let i = 0; i < items.length; i++) {
-			let [itemId, count] = items[i];
-			let found = false;
-			for (let j = 0; j < ingredients.length; j++) {
-				if (ingredients[j][0] === itemId) {
-					ingredients[j][1] += count;
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				ingredients.push([itemId, count]);
-			}
-		}
-	}
-	if (recipeReversedMap[recipeId] === undefined) {
-		// If the recipeId is in ingredients, add count(second entry) by 1. Otherwise, add it to the list with count 1.
-		ingredients.push([recipeId, 1]);
-	} else {
-		let howToCook = recipeReversedMap[recipeId][0];
-		if (howToCook.method === "mix") {
-			let ingredientA = howToCook.items[0];
-			let ingredientB = howToCook.items[1];
-			let [subRecipeA, subIngredientsA] = explainRecipe(ingredientA);
-			let [subRecipeB, subIngredientsB] = explainRecipe(ingredientB);
-			recipe.push(...subRecipeA);
-			recipe.push(...subRecipeB);
-			addAllIngredients(subIngredientsA);
-			addAllIngredients(subIngredientsB);
+	let steps = calculateRecipeV2(recipeId);
+	for(let step of steps) {
+		if (step.method === "mix") {
+			let ingredientA = step.ingredients[0];
+			let ingredientB = step.ingredients[1];
 			recipe.push(`'${foodNames[ingredientA]}'와 '${foodNames[ingredientB]}' 섞어서 '${foodNames[recipeId]}' 만들기.`);
-		} else {
-			let ingredient = howToCook.items[0];
-			let subRecipe = explainRecipe(ingredient);
-			recipe.push(...subRecipe[0]);
-			addAllIngredients(subRecipe[1]);
-			let methodStr = humanReadableMethod(howToCook.method);
+		} else if(step.method === "premade") {
+			recipe.push(`준비된 '${foodNames[step.ingredients[0]]}' 가져오기.`);
+		} else if(step.method !== "fridge") {
+			let ingredient = step.ingredients[0];
+			let methodStr = humanReadableMethod(step.method);
 			recipe.push(`'${foodNames[ingredient]}' ${methodStr} '${foodNames[recipeId]}' 만들기.`);
+		}
+		if(step.method === "fridge") {
+			if(step.itemId in ingredients) {
+				ingredients[step.itemId]++;
+			} else {
+				ingredients[step.itemId] = 1;
+			}
 		}
 	}
 
@@ -366,9 +570,13 @@ function explainRecipe(recipeId) {
 function humanReadableRecipe(recipeId) {
 	let [recipe, ingredients] = explainRecipe(recipeId);
 	let recipeStr = recipe.join("\n\n");
-	let ingredientsStr = ingredients.map(([itemId, count]) => `${foodNames[itemId]}`).join("\n");
+	let ingredientsStr = ``;
+	for(let itemId in ingredients) {
+		let count = ingredients[itemId];
+		ingredientsStr += `${foodNames[itemId]} x ${count}\n`;
+	}
 
-	let result = `재료:\n\n${ingredientsStr}\n\n\n조리법:\n\n${recipeStr}\n\n\n'${foodNames[recipeId]}' 완성!`;
+	let result = `재료:\n\n${ingredientsStr}\n\n조리법:\n\n${recipeStr}\n\n\n'${foodNames[recipeId]}' 완성!`;
 	return result;
 }
 
