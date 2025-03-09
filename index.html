@@ -29,42 +29,74 @@
 </head>
 
 <body>
-    <h1>SPXXM</h1>
-    <label for="menuSelect">음식을 선택하세요:</label>
+    <h1>SPXXM 래스토랑 레시피 정보</h1>
+    <label for="stageSelect">스테이지:</label>
+    <select id="stageSelect"></select>
+    <label for="menuSelect">음식:</label>
     <select id="menuSelect"></select>
-    <h2>레시피</h2>
     <div id="recipeDisplay"></div>
 
     <script>
-
         document.addEventListener("DOMContentLoaded", () => {
+            let stageSelect = document.getElementById("stageSelect");
             let menuSelect = document.getElementById("menuSelect");
             let recipeDisplay = document.getElementById("recipeDisplay");
 
-            function addListItem(text, value) {
+            {
                 let option = document.createElement("option");
-                option.value = value;
-                option.textContent = text;
-                menuSelect.appendChild(option);
+                option.value = -1;
+                option.textContent = "모두 보기";
+                stageSelect.appendChild(option);
+            }
+            for (let i = 0; i < stageNames.length; i++) {
+                let option = document.createElement("option");
+                option.value = i;
+                option.textContent = stageNames[i];
+                stageSelect.appendChild(option);
             }
 
-            for (let i = 0; i < stageNames.length; i++) {
-                addListItem(`=== 스테이지: ${stageNames[i]} ===`, null);
-                for (let item of menus[i]) {
-                    addListItem(foodNames[item], item);
+            stageSelect.addEventListener("change", () => {
+                let stageId = Number(stageSelect.value);
+                let menuSelect = document.getElementById("menuSelect");
+                menuSelect.innerHTML = "";
+
+                function addListItem(text, value) {
+                    let option = document.createElement("option");
+                    option.value = value;
+                    option.textContent = text;
+                    menuSelect.appendChild(option);
                 }
-                addListItem("-----------", null);
-                let processedTrashes = [];
-                for (let item of hazardMenus[i]) {
-                    if (!processedTrashes.includes(item)) {
+
+                function addMenusForStage(stageId) {
+                    for (let item of menus[stageId]) {
                         addListItem(foodNames[item], item);
-                        processedTrashes.push(item);
+                    }
+                    addListItem("-----------", null);
+                    let processedTrashes = [];
+                    for (let item of hazardMenus[stageId]) {
+                        if (!processedTrashes.includes(item)) {
+                            addListItem(foodNames[item], item);
+                            processedTrashes.push(item);
+                        }
                     }
                 }
-            }
 
-            // 기본 선택된 아이템의 레시피 표시
-            showRecipe();
+                if(stageId === -1) {
+                    for (let i = 0; i < menus.length; i++) {
+                        addListItem(`=== 스테이지: ${stageNames[i]} ===`, null);
+                        addMenusForStage(i);
+                        showRecipe();
+                    }
+                    return;
+                } else if (stageId < 0 || stageId >= menus.length) {
+                    return;
+                }
+                addMenusForStage(stageId);
+                showRecipe();
+            });
+
+            stageSelect.value = -1;
+            stageSelect.dispatchEvent(new Event("change"));
 
             // 선택 변경 시 자동 업데이트
             menuSelect.addEventListener("change", showRecipe);
