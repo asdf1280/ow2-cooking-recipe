@@ -560,13 +560,13 @@ function explainRecipe(recipeId) {
 		if (step.method === "mix") {
 			let ingredientA = step.ingredients[0];
 			let ingredientB = step.ingredients[1];
-			recipe.push(`'${foodNames[ingredientA]}'와 '${foodNames[ingredientB]}' 섞어서 '${foodNames[recipeId]}' 만들기.`);
+			recipe.push(`'${foodNames[ingredientA]}'와 '${foodNames[ingredientB]}' 섞어서 '${foodNames[step.itemId]}' 만들기.`);
 		} else if (step.method === "premade") {
-			recipe.push(`준비된 '${foodNames[step.ingredients[0]]}' 가져오기.`);
+			recipe.push(`방금 제작한 '${foodNames[step.ingredients[0]]}' 가져오기.`);
 		} else if (step.method !== "fridge") {
 			let ingredient = step.ingredients[0];
 			let methodStr = humanReadableMethod(step.method);
-			recipe.push(`'${foodNames[ingredient]}' ${methodStr} '${foodNames[recipeId]}' 만들기.`);
+			recipe.push(`'${foodNames[ingredient]}' ${methodStr} '${foodNames[step.itemId]}' 만들기.`);
 		}
 		if (step.method === "fridge") {
 			if (step.itemId in ingredients) {
