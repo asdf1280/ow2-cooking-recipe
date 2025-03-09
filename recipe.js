@@ -600,7 +600,11 @@ function htmlItemName(itemId) {
 
 function humanReadableRecipe(recipeId) {
 	let [recipe, ingredients] = explainRecipe(recipeId);
-	let recipeStr = recipe.join("\n\n");
+
+	// 탄 음식
+	if(recipeId === 0) recipe = ["아무 재료나 계속 가열하기."]
+
+	let recipeStr = recipe.map((v) => `<div class='block'>${v}</div>`).join("\n");
 	let ingredientsStr = ``;
 	for (let itemId in ingredients) {
 		let count = ingredients[itemId];
