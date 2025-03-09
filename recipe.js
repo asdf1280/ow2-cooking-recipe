@@ -575,7 +575,7 @@ function explainRecipe(recipeId) {
 			let ingredientB = step.ingredients[1];
 			recipe.push(`'${htmlItemName(ingredientA)}'와 '${htmlItemName(ingredientB)}' 섞어서 '${htmlItemName(step.itemId)}' 만들기.`);
 		} else if (step.method === "premade") {
-			recipe.push(`방금 제작한 '${htmlItemName(step.ingredients[0])}' 가져오기.`);
+			recipe.push(`방금 제작한 '${htmlItemName(step.itemId)}' 가져오기.`);
 		} else if (step.method !== "fridge") {
 			let ingredient = step.ingredients[0];
 			let methodStr = humanReadableMethod(step.method);
