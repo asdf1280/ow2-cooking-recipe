@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,26 @@
     <title>SPXXM</title>
     <script src="recipe.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        select, button { padding: 10px; margin: 10px 0; }
-        #recipeDisplay { white-space: pre-line; background: #f9f9f9; padding: 10px; border: 1px solid #ddd; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        select,
+        button {
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        #recipeDisplay {
+            white-space: pre-line;
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
+
 <body>
     <h1>SPXXM</h1>
     <label for="menuSelect">음식을 선택하세요:</label>
@@ -24,32 +40,38 @@
         document.addEventListener("DOMContentLoaded", () => {
             let menuSelect = document.getElementById("menuSelect");
             let recipeDisplay = document.getElementById("recipeDisplay");
-            
-            let x = menuId => {
+
+            function addListItem(text, value) {
                 let option = document.createElement("option");
-                option.value = menuId;
-                option.textContent = foodNames[menuId];
-                menuSelect.appendChild(option);
-            };
-            menus.forEach(x);
-            {
-                let option = document.createElement("option");
-                option.value = null;
-                option.textContent = "----------";
+                option.value = value;
+                option.textContent = text;
                 menuSelect.appendChild(option);
             }
-            hazardMenus.forEach(x);
-            
+            addListItem("=== 일반 요리 ===", null);
+            for(let menuList of menus) {
+                for(let item of menuList) {
+                    addListItem(foodNames[item], item);
+                }
+                addListItem("-----------", null);
+            }
+            addListItem("=== 괴식들 ===", null);
+            for(let menuList of hazardMenus) {
+                for(let item of menuList) {
+                    addListItem(foodNames[item], item);
+                }
+                addListItem("-----------", null);
+            }
+
             // 기본 선택된 아이템의 레시피 표시
             showRecipe();
-            
+
             // 선택 변경 시 자동 업데이트
             menuSelect.addEventListener("change", showRecipe);
         });
 
         function showRecipe() {
             let menuId = document.getElementById("menuSelect").value;
-            if(menuId === 'null') {
+            if (menuId === 'null') {
                 document.getElementById("recipeDisplay").textContent = "요리를 선택하세요";
                 return;
             }
@@ -59,5 +81,12 @@
     </script>
 
     <p>본 프로젝트는 오픈 소스입니다. 수정 요청 및 문의는 <a href="https://github.com/asdf1280/ow2-cooking-recipe">여기를 클릭하십시오</a>.</p>
+    <h3>업데이트 내역</h3>
+    <h4>버전 1.1</h4>
+    <ul>
+        <li>레시피 계산 알고리즘 개선. 이제 반복되는 조리를 축약하여 알려주며, 불필요한 찌꺼기를 남기지 않습니다.</li>
+        <li>음식을 스테이지별로 분류했습니다.</li>
+    </ul>
 </body>
+
 </html>

@@ -236,8 +236,8 @@ const mixResults = parseWorkshopArray(MIX_RESULTS)[0];
 
 console.log("cuttingResults", cuttingResults);
 
-let menus = parseMenuArray(MENU_LISTS);
-let hazardMenus = parseMenuArray(HAZARD_MENU_LISTS);
+let menus = parseWorkshopArray(MENU_LISTS)[0];
+let hazardMenus = parseWorkshopArray(HAZARD_MENU_LISTS)[0];
 
 /**
  * @type {Record<number, {method: CookMethod, items: number[], output: number[]}[]>}
