@@ -1,0 +1,29 @@
+Supported colors
+
+## How to contribute
+
+If there's a missing color, please add it to the list below, and add appropriate css class named .item-color-<CODE> to index.html > <style> section.
+
+If a menu/item shown in the recipe has neither background nor text color, it means the color's missing. Contributions are welcome.
+
+There are several colors missing that were added on the last update. They should be added.
+
+## List of colors
+
+A - rgb(246, 86, 86);
+B - skyblue
+C - rgb(255, 65, 0);
+D - black
+F - rgb(255, 255, 190);
+G - green
+H - rgb(255, 200, 100);
+L - lime green
+M - rgb(180, 100, 0);
+O - orange
+P - rgb(250, 150, 70);
+R - red
+S - rgb(100, 60, 0);
+T - turquoise
+V - rgb(0, 125, 0);
+W - white
+Y - yellow
