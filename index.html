@@ -170,7 +170,7 @@
 
                 function addMenusForStage(stageId) {
                     for (let item of menus[stageId]) {
-                        addListItem(foodNames[item], item);
+                        addListItem(foodNames[item], [item, stageId]);
                     }
                     addListItem("-----------", null);
                     let processedTrashes = [];
@@ -209,7 +209,9 @@
                 document.getElementById("recipeDisplay").textContent = "요리를 선택하세요";
                 return;
             }
-            let recipeText = humanReadableRecipe(Number(menuId));
+            let ids = menuId.split(",").map(Number)
+            console.log(menuId)
+            let recipeText = humanReadableRecipe(ids[0], ids[1]);
             document.getElementById("recipeDisplay").innerHTML = recipeText;
         }
     </script>

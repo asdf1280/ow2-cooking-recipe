@@ -325,32 +325,33 @@ let MIX_RESULTS = "";
 let MENU_LISTS = "";
 let HAZARD_MENU_LISTS = "";
 let STAGE_NAMES = "";
+let FRIDGE_LISTS = "";
 
-const CatchKeywords = ['ITEM_NAME', 'ITEM_COLOR', 'CUTTING_RESULT', 'GRILLING_RESULT', 'FRYING_RESULT', 'POT_RESULT', 'PAN_RESULT', 'IMPACT_RESULT', 'RAW_MIX', 'RAW_RESULT', 'MENU_LIST', 'HAZARD_MENU_LIST', 'STAGE_NAME'];
+const CatchKeywords = ['ITEM_NAME', 'ITEM_COLOR', 'CUTTING_RESULT', 'GRILLING_RESULT', 'FRYING_RESULT', 'POT_RESULT', 'PAN_RESULT', 'IMPACT_RESULT', 'RAW_MIX', 'RAW_RESULT', 'MENU_LIST', 'HAZARD_MENU_LIST', 'STAGE_NAME', 'FRIDGE_LIST'];
 
 const ColorsSupported = "ABCDFGHLMOPRSTVWY";
 
-for(let i=0; i<lines.length; i++) {
+for (let i = 0; i < lines.length; i++) {
 	let line = lines[i];
 	// if line.trimStart() NOT startsWith 'Global.' + 'one of CatchKeywords', continue;
 	let keyword = CatchKeywords.find(keyword => line.trimStart().startsWith('Global.' + keyword + ' = '));
-	if(undefined === keyword) continue;
+	if (undefined === keyword) continue;
 
 	let tline = "";
 	let cnt = 0;
-	for(let j=0; j<lines.length-i; j++) {
-		if(lines[i+j].trimEnd().endsWith(';')) {
-			tline += lines[i+j];
+	for (let j = 0; j < lines.length - i; j++) {
+		if (lines[i + j].trimEnd().endsWith(';')) {
+			tline += lines[i + j];
 			cnt++;
 			break;
 		}
-		tline += lines[i+j] + '\n';
+		tline += lines[i + j] + '\n';
 		cnt++;
 	}
 
 	i += cnt - 1;
 
-	switch(keyword) {
+	switch (keyword) {
 		case 'ITEM_NAME':
 			FOOD_NAMES = tline;
 			break;
@@ -390,6 +391,9 @@ for(let i=0; i<lines.length; i++) {
 		case 'STAGE_NAME':
 			STAGE_NAMES = tline;
 			break;
+		case 'FRIDGE_LIST':
+			FRIDGE_LISTS = tline;
+			break;
 	}
 }
 
@@ -428,7 +432,7 @@ const itemColors = parseSlashStrings(ITEM_COLORS);
 console.log(itemColors);
 
 itemColors.forEach(element => {
-	if(!ColorsSupported.includes(element)) {
+	if (!ColorsSupported.includes(element)) {
 		console.log("WARNING: Unsupported color: ", element);
 	}
 });
@@ -490,6 +494,7 @@ console.log("cuttingResults", cuttingResults);
 
 let menus = parseWorkshopArray(MENU_LISTS)[0];
 let hazardMenus = parseWorkshopArray(HAZARD_MENU_LISTS)[0];
+let fridge = parseWorkshopArray(FRIDGE_LISTS)[0];
 
 /**
  * @type {Record<number, {method: CookMethod, items: number[], output: number[]}[]>}
@@ -580,9 +585,10 @@ function humanReadableMethod(method) {
 /**
  * 
  * @param {number} recipeId 
+ * @param {number} stageId 
  * @returns {FlatRecipe[]}
  */
-function calculateRecipeV2(recipeId) {
+function calculateRecipeV2(recipeId, stageId) {
 	/**
 	 * 
 	 * @param {number} item 
@@ -628,7 +634,7 @@ function calculateRecipeV2(recipeId) {
 				recipe.ingredients.push(m)
 			}
 
-			if (recipeReversedMap[nid] === undefined) {
+			if (recipeReversedMap[nid] === undefined || fridge[stageId].includes(nid)) {
 			} else if (inventory.includes(nid)) {
 				inventory.splice(inventory.indexOf(nid), 1);
 				m.method = "premade";
@@ -707,6 +713,8 @@ function calculateRecipeV2(recipeId) {
 
 	let recipe = calculateFullRecipe(recipeId);
 
+	console.log("Full recipe", recipe)
+
 	// Iterate backward, and eliminate repetitive recipes
 	/**
 	 * Parent recipe, and indication of child ingredient to check.
@@ -780,21 +788,17 @@ function calculateRecipeV2(recipeId) {
 	return getRecipeSteps(recipe);
 }
 
-// For test debugging
-menus.forEach(element => {
-	calculateRecipeV2(element);
-});
-
 /**
  * 
  * @param {number} recipeId 
+ * @param {number} stageId 
  * @returns {[string, Record<number, number>]}
  */
-function explainRecipe(recipeId) {
+function explainRecipe(recipeId, stageId) {
 	let recipe = [];
 	let ingredients = {};
 
-	let steps = calculateRecipeV2(recipeId);
+	let steps = calculateRecipeV2(recipeId, stageId);
 	for (let step of steps) {
 		if (step.method === "mix") {
 			let ingredientA = step.ingredients[0];
@@ -824,11 +828,11 @@ function htmlItemName(itemId) {
 	return `<span class="item item-color-${itemColors[itemId]}">${foodNames[itemId]}</span>`;
 }
 
-function humanReadableRecipe(recipeId) {
-	let [recipe, ingredients] = explainRecipe(recipeId);
+function humanReadableRecipe(recipeId, stageId) {
+	let [recipe, ingredients] = explainRecipe(recipeId, stageId);
 
 	// 탄 음식
-	if(recipeId === 0) recipe = ["아무 재료나 계속 가열하기."]
+	if (recipeId === 0) recipe = ["아무 재료나 계속 가열하기."]
 
 	let recipeStr = recipe.map((v) => `<div class='block'>${v}</div>`).join("\n");
 	let ingredientsStr = ``;
