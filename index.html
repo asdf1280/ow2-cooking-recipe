@@ -240,10 +240,11 @@
             }
             function recipes_searchResults(str) {
                 let matchedEntries = [];
+                let flattenedSearch = str.toLowerCase().replace(/[^a-zA-Z0-9가-힣]/g, "");
                 for (let stage = 0; stage < menus.length; stage++) {
                     for (let item of [...menus[stage], ...hazardMenus[stage]]) {
                         let name = foodNames[item];
-                        if (name.toLowerCase().includes(str.toLowerCase())
+                        if (name.toLowerCase().replace(/[^a-zA-Z0-9가-힣]/g, "").includes(str.toLowerCase())
                             && !matchedEntries.some(([_, [item2, stage2]]) => item2 === item)) {
                             matchedEntries.push([name, [item, stage]]);
                         }
@@ -253,7 +254,7 @@
                 // Shorter names first
                 matchedEntries.sort((a, b) => a[0].length - b[0].length);
 
-                if(matchedEntries.length === 0) {
+                if (matchedEntries.length === 0) {
                     matchedEntries.push(["검색 결과 없음", null]);
                 }
 
@@ -265,9 +266,9 @@
 
             function updateList() {
                 let chosenStage = Number(stageSelect.value);
-                if(searchKeyword !== null) {
+                if (searchKeyword !== null) {
                     recipes_searchResults(searchKeyword);
-                } else if(chosenStage >= 0 && chosenStage < menus.length) {
+                } else if (chosenStage >= 0 && chosenStage < menus.length) {
                     recipes_showStage(chosenStage);
                 } else {
                     recipes_showAllStages();
