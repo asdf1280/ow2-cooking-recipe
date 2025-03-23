@@ -966,7 +966,7 @@ function humanReadableRecipe(recipeId, stageId) {
 
 		let result = `재료:\n\n${ingredientsStr}\n\n조리법:\n\n${recipeStr}\n\n\n'${htmlItemName(recipeId)}' 완성!`;
 		if(meltableItems.includes(recipeId)) {
-			result += `\n\n주의: 이 음식은 시간이 지나면 사라집니다!`;
+			result += `\n\n주의: 이 음식은 매우 빨리 사라집니다!`;
 		}
 		return result;
 	} catch (e) {
