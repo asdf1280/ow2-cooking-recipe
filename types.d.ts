@@ -8,6 +8,7 @@ type Recipe = {
     itemId: number
     fullOutput: Array<number>
     repeat: number
+    effort: number
 }
 
 type FlatRecipe = {
@@ -15,5 +16,6 @@ type FlatRecipe = {
     method: CookMethod
     itemId: number
     fullOutput: Array<number>
+    effort: number
     repeat: number
 }

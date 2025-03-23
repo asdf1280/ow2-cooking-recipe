@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="expires" content="0">
     <title>SPXXM</title>
-    <script src="recipe.js?v=nocache-9"></script>
+    <script src="recipe.js?v=nocache-10"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,6 +24,11 @@
             background: #f9f9f9;
             padding: 10px;
             border: 1px solid #ddd;
+        }
+
+        #searchInput {
+            padding: 10px;
+            margin: 10px 0;
         }
 
         .item-color-D {
@@ -102,8 +107,8 @@
         }
 
         .item-color-P {
-            background-color: rgb(250, 150, 70);
-            color: black;
+            background-color: rgb(255, 144, 52);
+            color: rgb(0, 0, 0);
         }
 
         .item-color-B {
@@ -149,10 +154,10 @@
 
 <body>
     <h1>SPXXM 레스토랑 레시피 정보</h1>
-    <label for="stageSelect">스테이지:</label>
     <select id="stageSelect"></select>
-    <label for="menuSelect">음식:</label>
     <select id="menuSelect"></select>
+    <input type="text" id="searchInput" placeholder="검색" />
+    <button id="clearSearch">X</button>
     <div id="recipeDisplay"></div>
 
     <script>
@@ -160,11 +165,14 @@
             let stageSelect = document.getElementById("stageSelect");
             let menuSelect = document.getElementById("menuSelect");
             let recipeDisplay = document.getElementById("recipeDisplay");
+            let searchInput = document.getElementById("searchInput");
+            let clearSearch = document.getElementById("clearSearch");
 
+            // Add stage names to the stageSelect element
             {
                 let option = document.createElement("option");
                 option.value = -1;
-                option.textContent = "모두 보기";
+                option.textContent = "스테이지";
                 stageSelect.appendChild(option);
             }
             for (let i = 0; i < stageNames.length; i++) {
@@ -174,8 +182,10 @@
                 stageSelect.appendChild(option);
             }
 
-            stageSelect.addEventListener("change", () => {
-                let stageId = Number(stageSelect.value);
+            /**
+             * @param {List<[string, any]} value
+             */
+            function recipes_setList(value) {
                 let menuSelect = document.getElementById("menuSelect");
                 menuSelect.innerHTML = "";
 
@@ -186,36 +196,106 @@
                     menuSelect.appendChild(option);
                 }
 
-                function addMenusForStage(stageId) {
-                    for (let item of menus[stageId]) {
-                        addListItem(foodNames[item], [item, stageId]);
+                for (let item of value) {
+                    let text = item[0];
+                    let value = item[1];
+
+                    let option = document.createElement("option");
+                    option.value = value;
+                    option.textContent = text;
+                    menuSelect.appendChild(option);
+                }
+
+                menuSelect.value = value[0][1];
+                menuSelect.dispatchEvent(new Event("change"));
+            }
+
+            function getMenusForStage(stageId) {
+                let list = [];
+                for (let item of menus[stageId]) {
+                    list.push([foodNames[item], [item, stageId]]);
+                }
+                list.push(["-----------", null]);
+                let processedTrashes = [];
+                for (let item of hazardMenus[stageId]) {
+                    if (!processedTrashes.includes(item)) {
+                        list.push([foodNames[item], [item, stageId]]);
+                        processedTrashes.push(item);
                     }
-                    addListItem("-----------", null);
-                    let processedTrashes = [];
-                    for (let item of hazardMenus[stageId]) {
-                        if (!processedTrashes.includes(item)) {
-                            addListItem(foodNames[item], item);
-                            processedTrashes.push(item);
+                }
+                return list;
+            }
+
+            function recipes_showAllStages() {
+                let list = [];
+                for (let i = 0; i < menus.length; i++) {
+                    list.push([`=== 스테이지: ${stageNames[i]} ===`, null]);
+                    list.push(...getMenusForStage(i));
+                }
+
+                recipes_setList(list);
+            }
+            function recipes_showStage(stage) {
+                recipes_setList(getMenusForStage(stage));
+            }
+            function recipes_searchResults(str) {
+                let matchedEntries = [];
+                for (let stage = 0; stage < menus.length; stage++) {
+                    for (let item of [...menus[stage], ...hazardMenus[stage]]) {
+                        let name = foodNames[item];
+                        if (name.toLowerCase().includes(str.toLowerCase())
+                            && !matchedEntries.some(([_, [item2, stage2]]) => item2 === item)) {
+                            matchedEntries.push([name, [item, stage]]);
                         }
                     }
                 }
 
-                if (stageId === -1) {
-                    for (let i = 0; i < menus.length; i++) {
-                        addListItem(`=== 스테이지: ${stageNames[i]} ===`, null);
-                        addMenusForStage(i);
-                        showRecipe();
-                    }
-                    return;
-                } else if (stageId < 0 || stageId >= menus.length) {
-                    return;
+                // Shorter names first
+                matchedEntries.sort((a, b) => a[0].length - b[0].length);
+
+                if(matchedEntries.length === 0) {
+                    matchedEntries.push(["검색 결과 없음", null]);
                 }
-                addMenusForStage(stageId);
+
+                recipes_setList(matchedEntries);
+            }
+
+            // String or null
+            let searchKeyword = null;
+
+            function updateList() {
+                let chosenStage = Number(stageSelect.value);
+                if(searchKeyword !== null) {
+                    recipes_searchResults(searchKeyword);
+                } else if(chosenStage >= 0 && chosenStage < menus.length) {
+                    recipes_showStage(chosenStage);
+                } else {
+                    recipes_showAllStages();
+                }
+            }
+
+            stageSelect.addEventListener("change", () => {
+                updateList();
                 showRecipe();
             });
 
             stageSelect.value = -1;
             stageSelect.dispatchEvent(new Event("change"));
+
+            // 검색 입력 필드에 이벤트 리스너 추가
+            searchInput.addEventListener("input", (event) => {
+                searchKeyword = event.target.value.trim();
+                if (searchKeyword === "") {
+                    searchKeyword = null;
+                }
+                updateList();
+            });
+            // 검색 초기화 버튼 클릭 시
+            clearSearch.addEventListener("click", () => {
+                searchInput.value = "";
+                searchKeyword = null;
+                updateList();
+            });
 
             // 선택 변경 시 자동 업데이트
             menuSelect.addEventListener("change", showRecipe);
@@ -236,6 +316,11 @@
 
     <p>본 프로젝트는 오픈 소스입니다. 수정 요청 및 문의는 <a href="https://github.com/asdf1280/ow2-cooking-recipe">여기를 클릭하십시오</a>.</p>
     <h3>업데이트 내역</h3>
+    <h4>버전 1.6</h4>
+    <ul>
+        <li>검색 기능 추가</li>
+        <li>조리에 소요되는 시간 정보 추가</li>
+    </ul>
     <h4>버전 1.5.1</h4>
     <ul>
         <li>20250323 업데이트 반영</li>

@@ -373,12 +373,17 @@ rule("Global subroutine: Data init2")
 
 let lines = DATA_INIT_CODE.split("\n");
 
-let FOOD_NAMES = "";
-let ITEM_COLORS = "";
+let ITEM_COLOR = "";
+let ITEM_NAME = "";
+let CUTTING_COUNTS = ""; // new
 let CUTTING_RESULTS = "";
+let GRILLING_TIMES = ""; // new
 let GRILLING_RESULTS = "";
+let FRYING_TIMES = ""; // new
 let FRYING_RESULTS = "";
+let POT_TIMES = ""; // new
 let POT_RESULTS = "";
+let PAN_TIMES = ""; // new
 let PAN_RESULTS = "";
 let IMPACT_RESULTS = "";
 let MIX_RECIPES = "";
@@ -387,8 +392,9 @@ let MENU_LISTS = "";
 let HAZARD_MENU_LISTS = "";
 let STAGE_NAMES = "";
 let FRIDGE_LISTS = "";
+let MELT_LIST = "";
 
-const CatchKeywords = ['ITEM_NAME', 'ITEM_COLOR', 'CUTTING_RESULT', 'GRILLING_RESULT', 'FRYING_RESULT', 'POT_RESULT', 'PAN_RESULT', 'IMPACT_RESULT', 'RAW_MIX', 'RAW_RESULT', 'MENU_LIST', 'HAZARD_MENU_LIST', 'STAGE_NAME', 'FRIDGE_LIST'];
+const CatchKeywords = ['ITEM_COLOR', 'ITEM_NAME', 'CUTTING_NEEDED', 'CUTTING_RESULT', 'GRILLING_NEEDED', 'GRILLING_RESULT', 'FRYING_NEEDED', 'FRYING_RESULT', 'POT_TIME', 'POT_RESULT', 'PAN_NEEDED', 'PAN_RESULT', 'IMPACT_RESULT', 'RAW_MIX', 'RAW_RESULT', 'MENU_LIST', 'HAZARD_MENU_LIST', 'STAGE_NAME', 'FRIDGE_LIST', 'MELT_LIST'];
 
 const ColorsSupported = "ABCDFGHLMOPRSTVWYNQX";
 
@@ -413,23 +419,38 @@ for (let i = 0; i < lines.length; i++) {
 	i += cnt - 1;
 
 	switch (keyword) {
-		case 'ITEM_NAME':
-			FOOD_NAMES = tline;
-			break;
 		case 'ITEM_COLOR':
-			ITEM_COLORS = tline;
+			ITEM_COLOR = tline;
+			break;
+		case 'ITEM_NAME':
+			ITEM_NAME = tline;
+			break;
+		case 'CUTTING_NEEDED':
+			CUTTING_COUNTS = tline;
 			break;
 		case 'CUTTING_RESULT':
 			CUTTING_RESULTS = tline;
 			break;
+		case 'GRILLING_NEEDED':
+			GRILLING_TIMES = tline;
+			break;
 		case 'GRILLING_RESULT':
 			GRILLING_RESULTS = tline;
+			break;
+		case 'FRYING_NEEDED':
+			FRYING_TIMES = tline;
 			break;
 		case 'FRYING_RESULT':
 			FRYING_RESULTS = tline;
 			break;
+		case 'POT_TIME':
+			POT_TIMES = tline;
+			break;
 		case 'POT_RESULT':
 			POT_RESULTS = tline;
+			break;
+		case 'PAN_NEEDED':
+			PAN_TIMES = tline;
 			break;
 		case 'PAN_RESULT':
 			PAN_RESULTS = tline;
@@ -454,6 +475,9 @@ for (let i = 0; i < lines.length; i++) {
 			break;
 		case 'FRIDGE_LIST':
 			FRIDGE_LISTS = tline;
+			break;
+		case 'MELT_LIST':
+			MELT_LIST = tline;
 			break;
 	}
 }
@@ -483,13 +507,13 @@ function parseSlashStrings(str) {
 	return arr;
 }
 
-const foodNames = parseSlashStrings(FOOD_NAMES);
+const foodNames = parseSlashStrings(ITEM_NAME);
 console.log("List of food names: ");
 for (let i = 0; i < foodNames.length; i++) {
 	console.log(i, foodNames[i]);
 }
 
-const itemColors = parseSlashStrings(ITEM_COLORS);
+const itemColors = parseSlashStrings(ITEM_COLOR);
 // console.log(itemColors);
 
 itemColors.forEach(element => {
@@ -550,20 +574,27 @@ const panResults = parseWorkshopArray(PAN_RESULTS)[0];
 const impactResults = parseWorkshopArray(IMPACT_RESULTS)[0];
 const mixRecipes = parseWorkshopArray(MIX_RECIPES)[0];
 const mixResults = parseWorkshopArray(MIX_RESULTS)[0];
+const meltableItems = parseWorkshopArray(MELT_LIST)[0];
+
+CUTTING_COUNTS = parseWorkshopArray(CUTTING_COUNTS)[0];
+GRILLING_TIMES = parseWorkshopArray(GRILLING_TIMES)[0];
+FRYING_TIMES = parseWorkshopArray(FRYING_TIMES)[0];
+POT_TIMES = parseWorkshopArray(POT_TIMES)[0];
+PAN_TIMES = parseWorkshopArray(PAN_TIMES)[0];
 
 let menus = parseWorkshopArray(MENU_LISTS)[0];
 let hazardMenus = parseWorkshopArray(HAZARD_MENU_LISTS)[0];
 let fridge = parseWorkshopArray(FRIDGE_LISTS)[0];
 
 /**
- * @type {Record<number, {method: CookMethod, items: number[], output: number[]}[]>}
+ * @type {Record<number, {method: CookMethod, effort: number, items: number[], output: number[]}[]>}
  */
 let recipeReversedMap = {};
 
 /**
  * 
  * @param {number} resultId 
- * @param {{method: CookMethod, items: number[], output: number[]}} methodObj 
+ * @param {{method: CookMethod, effort: number, items: number[], output: number[]}} methodObj 
  */
 function storeMethod(resultId, methodObj) {
 	if (typeof resultId !== "number") { // array
@@ -582,42 +613,48 @@ cuttingResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
 	let output = value;
 	if (typeof output == "number") output = [value];
-	storeMethod(value, { method: "cutting", items: [sourceIndex], output });
+	let effort = CUTTING_COUNTS[sourceIndex];
+	storeMethod(value, { method: "cutting", effort, items: [sourceIndex], output });
 });
 
 grillingResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
 	let output = value;
 	if (typeof output == "number") output = [value];
-	storeMethod(value, { method: "grilling", items: [sourceIndex], output });
+	let effort = GRILLING_TIMES[sourceIndex];
+	storeMethod(value, { method: "grilling", effort, items: [sourceIndex], output });
 });
 
 fryingResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
 	let output = value;
 	if (typeof output == "number") output = [value];
-	storeMethod(value, { method: "frying", items: [sourceIndex], output });
+	let effort = FRYING_TIMES[sourceIndex];
+	storeMethod(value, { method: "frying", effort, items: [sourceIndex], output });
 });
 
 potResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
 	let output = value;
 	if (typeof output == "number") output = [value];
-	storeMethod(value, { method: "pot", items: [sourceIndex], output });
+	let effort = POT_TIMES[sourceIndex];
+	if(typeof effort !== "number") effort = 0;
+	storeMethod(value, { method: "pot", effort, items: [sourceIndex], output });
 });
 
 panResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
 	let output = value;
 	if (typeof output == "number") output = [value];
-	storeMethod(value, { method: "pan", items: [sourceIndex], output });
+	let effort = PAN_TIMES[sourceIndex];
+	storeMethod(value, { method: "pan", effort, items: [sourceIndex], output });
 });
 
 impactResults.forEach((value, sourceIndex) => {
 	if (value === null) return;
 	let output = value;
 	if (typeof output == "number") output = [value];
-	storeMethod(value, { method: "impact", items: [sourceIndex], output });
+	storeMethod(value, { method: "impact", effort: 0, items: [sourceIndex], output });
 });
 
 mixResults.forEach((value, sourceIndex) => {
@@ -626,19 +663,32 @@ mixResults.forEach((value, sourceIndex) => {
 	let ingredientB = Math.floor(recipe / 1000);
 	let output = value;
 	if (typeof output == "number") output = [value];
-	storeMethod(value, { method: "mix", items: [ingredientA, ingredientB], output });
+	storeMethod(value, { method: "mix", effort: 0, items: [ingredientA, ingredientB], output });
 });
 
-function humanReadableMethod(method) {
+function humanReadableMethod(method, effort) {
 	switch (method) {
-		case "cutting": return "도마에서 썰어서";
-		case "grilling": return "그릴에 구워서";
-		case "frying": return "튀겨서";
-		case "pot": return "솥에 쪄서";
-		case "pan": return "팬에 볶아서";
-		case "impact": return "던져서";
-		case "mix": return "섞어서";
+		case "cutting": return `도마에서 ${effort}번 썰어서`;
+		case "grilling": return `그릴에서 ${effort}초 구워서`;
+		case "frying": return `${effort}초 튀겨서`;
+		case "pot": return `솥에 ${effort}초 쪄서`;
+		case "pan": return `팬에 ${effort}초 볶아서`;
+		case "impact": return `던져서`;
+		case "mix": return `섞어서`;
 	}
+}
+
+/**
+ * @type {Record<CookMethod, number>}
+ */
+let METHOD_PENALTY = {
+	cutting: 1,
+	grilling: 2,
+	frying: 0.5,
+	pot: 0.2,
+	pan: 0.5,
+	impact: 0,
+	mix: 0
 }
 
 /**
@@ -692,7 +742,8 @@ function calculateRecipeV2(recipeId, stageId) {
 				method: "fridge",
 				itemId: nid,
 				fullOutput: [nid],
-				repeat: 1
+				repeat: 1,
+				effort: 0
 			}
 			if (recipe === null) {
 				result = rc;
@@ -727,11 +778,14 @@ function calculateRecipeV2(recipeId, stageId) {
 						maxScore = score;
 						maxIndex = i;
 					}
+					score -= possibleMethods[i].effort; // To prefer the least effort method.
+					score -= METHOD_PENALTY[possibleMethods[i].method]; // To prefer the nearest method.
 				}
 
 				let chosenMethod = possibleMethods[maxIndex];
 				rc.method = chosenMethod.method;
 				rc.fullOutput = chosenMethod.output;
+				rc.effort = chosenMethod.effort;
 				inventory.push(...chosenMethod.output);
 				inventory.splice(inventory.indexOf(nid), 1);
 				let insertAt = 0;
@@ -768,7 +822,8 @@ function calculateRecipeV2(recipeId, stageId) {
 				itemId: recipe.itemId,
 				method: recipe.method,
 				fullOutput: recipe.fullOutput,
-				repeat: recipe.repeat
+				repeat: recipe.repeat,
+				effort: recipe.effort,
 			})
 		}
 		appendStep(recipe);
@@ -873,8 +928,11 @@ function explainRecipe(recipeId, stageId) {
 			recipe.push(`방금 제작한 '${htmlItemName(step.itemId)}' 가져오기.`);
 		} else if (step.method !== "fridge") {
 			let ingredient = step.ingredients[0];
-			let methodStr = humanReadableMethod(step.method);
-			recipe.push(`'${htmlItemName(ingredient)}' ${methodStr} '${htmlItemName(step.itemId)}' 만들기.`);
+			let methodStr = humanReadableMethod(step.method, step.effort);
+			let fstr = `'${htmlItemName(ingredient)}' ${methodStr} '${htmlItemName(step.itemId)}' 만들기.`;
+			if(step.repeat > 1)
+				fstr += ` (${step.repeat}회 반복)`;
+			recipe.push(fstr);
 		}
 		if (step.method === "fridge") {
 			if (step.itemId in ingredients) {
@@ -907,6 +965,9 @@ function humanReadableRecipe(recipeId, stageId) {
 		}
 
 		let result = `재료:\n\n${ingredientsStr}\n\n조리법:\n\n${recipeStr}\n\n\n'${htmlItemName(recipeId)}' 완성!`;
+		if(meltableItems.includes(recipeId)) {
+			result += `\n\n주의: 이 음식은 시간이 지나면 사라집니다!`;
+		}
 		return result;
 	} catch (e) {
 		console.error(e);
