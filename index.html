@@ -244,7 +244,7 @@
                 for (let stage = 0; stage < menus.length; stage++) {
                     for (let item of [...menus[stage], ...hazardMenus[stage]]) {
                         let name = foodNames[item];
-                        if (name.toLowerCase().replace(/[^a-zA-Z0-9가-힣]/g, "").includes(str.toLowerCase())
+                        if (name.toLowerCase().replace(/[^a-zA-Z0-9가-힣]/g, "").includes(flattenedSearch)
                             && !matchedEntries.some(([_, [item2, stage2]]) => item2 === item)) {
                             matchedEntries.push([name, [item, stage]]);
                         }
