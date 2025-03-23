@@ -649,8 +649,8 @@ function humanReadableMethod(method) {
  */
 function calculateRecipeV2(recipeId, stageId) {
 	/**
-	 * 
-	 * @param {number} item 
+	 * Recursive recipe calculation function.
+	 * @param {number} itemId - The ID of the item to calculate the recipe for.
 	 * @returns {Recipe}
 	 */
 	const calculateFullRecipe = (itemId) => {
@@ -744,33 +744,7 @@ function calculateRecipeV2(recipeId, stageId) {
 		return result;
 	}
 
-	// const debugRecipe = (recipe) => {
-	// 	let steps = getRecipeSteps(recipe);
-	// 	/**
-	// 	 * @type {Array<number>}
-	// 	 */
-	// 	let inventory = [];
-
-	// 	steps.forEach(element => {
-	// 		for (let i = 0; i < element.repeat; i++) {
-	// 			element.ingredients.forEach((a) => {
-	// 				let d = inventory.lastIndexOf(a); // Must be last index of for proper leftover removal.
-	// 				if (d != -1) inventory.splice(d, 1);
-	// 			})
-	// 			if (element.method !== "premade")
-	// 				element.fullOutput.forEach((a) => {
-	// 					inventory.push(a);
-	// 				})
-	// 		}
-
-	// 		// Debugging
-	// 		console.log(element.ingredients.map((v) => foodNames[v]), element.method, foodNames[element.itemId], '*', element.repeat);
-	// 	});
-
-	// 	console.log("Items left:", inventory);
-	// }
-
-	// Recipe flattening
+	// [ Recipe flattening ]
 	/**
 	 * 
 	 * @param {Recipe} recipe 
@@ -803,9 +777,9 @@ function calculateRecipeV2(recipeId, stageId) {
 
 	let recipe = calculateFullRecipe(recipeId);
 
-	// console.log("Full recipe", recipe)
+	// [ Iterate backward, and eliminate repetitive recipes ]
+	// This is a bit of a mess, but it works.
 
-	// Iterate backward, and eliminate repetitive recipes
 	/**
 	 * Parent recipe, and indication of child ingredient to check.
 	 * @type {Array<[Recipe, number]>}
@@ -873,7 +847,8 @@ function calculateRecipeV2(recipeId, stageId) {
 			derepeatStack.splice(i, 0, [c, i]);
 		});
 	}
-	// Derepetition complete.
+
+	// [ Return the recipe steps ]
 
 	return getRecipeSteps(recipe);
 }
@@ -914,7 +889,6 @@ function explainRecipe(recipeId, stageId) {
 }
 
 function htmlItemName(itemId) {
-	// class name is .item-color-<character>
 	return `<span class="item item-color-${itemColors[itemId]}">${foodNames[itemId]}</span>`;
 }
 
@@ -945,12 +919,6 @@ function humanReadableRecipe(recipeId, stageId) {
 }
 
 function testRecipe() {
-	// Print stage name
-	// Iterate over each recipe in that stage
-	// First, print its ID and name
-	// Try to calculate 'humanReadableRecipe' for that recipe
-	// Print the result (OK)
-
 	let suc = 0, fail = 0;
 
 	for (let i = 0; i < stageNames.length; i++) {
@@ -971,7 +939,3 @@ function testRecipe() {
 
 	console.log("Total recipes: ", suc + fail, "Success: ", suc, "Fail: ", fail);
 }
-
-// menus.forEach(element => {
-// 	console.log(humanReadableRecipe(element))
-// });
