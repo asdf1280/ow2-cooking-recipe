@@ -17,12 +17,14 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			"M/M/H/Y/C/C/C/C/C/W/W/W/W/W/S/R/R/S/S/O/O/A/A/A/M/M/W/M/W/C/G/O/A/C/C/O/A/A/C/C/G/A/A/C/A/C/{0}", Custom String(
 			"A/F/F/F/G/C/M/G/C/M/W/W/M/M/B/W/W/W/F/O/O/S/S/S/W/F/F/W/S/F/M/M/W/W/Y/Y/M/F/F/M/F/M/M/F/F/F/{0}", Custom String(
 			"F/F/F/F/F/F/F/F/F/F/F/P/C/P/C/S/P/C/P/C/P/C/S/C/C/W/W/W/W/P/P/P/Y/F/M/G/N/N/W/W/W/F/F/N/A/Q/{0}", Custom String(
-			"X/X/P/M/P/M/P/M/P/M/M/M/M/A/X/P/Y/P/Y"))))))), Custom String("/")), Array(Color(Black), Color(Red), Custom Color(180, 100,
-			False, 255), Color(Yellow), Color(White), Color(Lime Green), Color(Green), Custom Color(255, 200, 100, 255), Color(Turquoise),
-			Custom Color(100, 60, False, 255), Custom Color(255, 65, False, 255), Custom Color(255, 255, 190, 255), Custom Color(False,
-			125, False, 255), Color(Orange), Custom Color(246, 86, 86, 255), Custom Color(250, 150, 70, 255), Color(Sky Blue),
-			Custom Color(255, 192, 243, 255), Custom Color(255, 108, 141, 255), Custom Color(255, 239, 104, 255))[Index Of Array Value(
-			String Split(Custom String("D/R/M/Y/W/L/G/H/T/S/C/F/V/O/A/P/B/N/Q/X"), Custom String("/")), Current Array Element)]);
+			"X/X/P/M/P/M/P/M/P/M/M/M/M/A/X/P/Y/P/Y/W/W/Y/S/R/P/F/S/S/P/P/R/F/S/N/S/X/P/N/X/P/N/X/X/P/X/X/{0}", Custom String(
+			"P/X/W/N/N/P/X/S/S/N/Y/S/S/P/S/M/M/M/S/S/S/S/S/S/S/S/S/R/R/R")))))))), Custom String("/")), Array(Color(Black), Color(Red),
+			Custom Color(180, 100, False, 255), Color(Yellow), Color(White), Color(Lime Green), Color(Green), Custom Color(255, 200, 100,
+			255), Color(Turquoise), Custom Color(100, 60, False, 255), Custom Color(255, 65, False, 255), Custom Color(255, 255, 190, 255),
+			Custom Color(False, 125, False, 255), Color(Orange), Custom Color(246, 86, 86, 255), Custom Color(250, 150, 70, 255), Color(
+			Sky Blue), Custom Color(255, 192, 243, 255), Custom Color(255, 108, 141, 255), Custom Color(255, 239, 104, 255))
+			[Index Of Array Value(String Split(Custom String("D/R/M/Y/W/L/G/H/T/S/C/F/V/O/A/P/B/N/Q/X"), Custom String("/")),
+			Current Array Element)]);
 		Global.ITEM_NAME = Append To Array(String Split(Custom String(
 			"탄 음식/소고기/썬 소고기/스테이크/찹스테이크/감자/썬 감자/감자튀김/구운 감자/찐 감자/으깬 감자/볶은 감자/파스타/삶은 파스타/토마토/썬 토마토/구운 토마토/토마토 소스/크림 소스/치즈/슬라이스 치즈/녹인 치즈/로제{0}",
 			Custom String(" 소스/치즈 감자튀김/토마토 파스타/크림 파스타/로제 파스타/로제치즈 파스타/크림치즈 파스타/크림치즈 소스/로제치즈 소스/생 패티/익힌 패티/양상추")), Custom String("/")),
@@ -31,7 +33,7 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			Custom String("양/빵+패+토+양/빵+치+토+양/빵+패+치+토+양/고기 버거/치즈고기 버거/야채 버거/치즈야채 버거/일반 버거/치즈 버거/양산형 칼/보조도마용 칼/휴대용 칼/날카로운 칼/겐지의 단검")),
 			Custom String("/")), Append To Array(String Split(Custom String(
 			"닭고기/썬 닭고기/조각낸 닭고기/파/썬 파/다진 파/튀김가루/고추장/간장/물엿/고추장 소스/간장 소스/파닭 소스/양념치킨 소스/구운 닭/닭+튀김가루/썬 닭+튀김가루/조각 닭+튀김가루/튀긴 조각 닭/후라이드 치킨/양념치킨/고추{0}",
-			Custom String("장 치킨/간장 치킨/닭강정/통닭/볶은 파/튀긴 파/삶은 닭고기/구운 파/튀김 부스러기/파닭/양념+튀긴 조각 닭/뭉겐 토마토/깨진 달걀/달걀/삶은 달걀/깐 삶은 달걀")), Custom String(
+			Custom String("장 치킨/간장 치킨/닭강정/통닭/볶은 파/튀긴 파/삶은 닭고기/구운 파/튀김 부스러기/파닭/양념+튀긴 조각 닭/뭉갠 토마토/깨진 달걀/달걀/삶은 달걀/깐 삶은 달걀")), Custom String(
 			"/")), Append To Array(String Split(Custom String(
 			"으깬 삶은 달걀/깐 달걀/김치볶음밥/계란볶음밥/불고기쌈밥/섞인 달걀/계란 후라이/스크램블 에그/계란찜/쌀/피자 치즈/밀가루/밀가루 반죽/작은 밀가루 반죽/핀 밀가루 반죽/만두피/피자 도우/밀 토르티야/페{0}",
 			Custom String("퍼로니/베이컨/구운 베이컨/썬 베이컨/도우+소스/치즈 피자/피자 베이스/피자+페퍼로니/피자+베이컨/피자+감자/피자+베이컨+감자/페퍼로니 피자/베이컨 피자/포테이토 피자/베이컨 포테이토 피자")),
@@ -51,7 +53,15 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			Append To Array(String Split(Custom String("회오리어묵/썬 회오리어묵/양파/썬 양파/다진 양파/구운 양파/볶은 양파/새우/구운 새우/찐 새우/핀 옥수수 반죽/옥수수 토르{0}",
 			Custom String("티야/돼지고기 타코(밀)/돼지고기 타코(옥수수)/소고기 타코(밀)/소고기 타코(옥수수)/구운 감바스 타코(밀)/구운 감바스 타코(옥수수)/찐 감바스 타코(밀)")), Custom String(
 			"/")), Append To Array(String Split(Custom String("찐 감바스 타코(옥수수)/돼지고기+양파/소고기+양파/구운 새우+양파/찐 {0}", Custom String(
-			"새우+양파/옥수수 반죽/튀긴 밀 토르티야/튀긴 옥수수 토르티야/나초(밀)/나초(옥수수)")), Custom String("/")), Empty Array)))))))))));
+			"새우+양파/옥수수 반죽/튀긴 밀 토르티야/튀긴 옥수수 토르티야/나초(밀)/나초(옥수수)")), Custom String("/")), Append To Array(String Split(Custom String(
+			"우유/아이스크림/바나나/초콜릿/딸기/오렌지/깐 바나나/조각낸 초콜릿/녹인 초콜릿/깐 오렌지/뭉갠 오렌지/뭉갠 딸기/뭉갠 바나나/초코{0}", Custom String(
+			"우유/딸기+바나나/초코 파르페/바나나 파르페/오렌지 파르페/딸기 파르페/바나나 파르페+초콜릿/오렌지 파르페+초콜릿/딸기 파르페+초콜릿")), Custom String("/")), Append To Array(
+			String Split(Custom String("바나나 파르페+오렌지/바나나 파르페+딸기/오렌지 파르페+딸기/바나나 파르페+초콜릿+오렌지/바나나 파르페+초콜릿+딸기/오렌지 파르페+{0}", Custom String(
+			"초콜릿+딸기/바나나 파르페+오렌지+딸기/밀크 셰이크/딸기바나나셰이크/딸기 셰이크/오렌지 셰이크/바나나 셰이크/초코 셰이크/초코바나나")), Custom String("/")), Append To Array(
+			String Split(Custom String("럭셔리 파르페/메이플 시럽/초코시럽/초코 반죽/계란빵/초코빵/핫케이크/핫케이크+베이컨/핫케이크+스크램블에그/초코시럽핫케이크/초코시{0}", Custom String(
+			"럽핫케이크+베이컨/초코시럽핫케이크+스크램블에그/초코핫케이크/초코핫케이크+베이컨/초코핫케이크+스크램블에그/초코초코핫케이크")), Custom String("/")), Append To Array(String Split(
+			Custom String("초코초코핫케이크+베이컨/초코초코핫케이크+스크램블에그/딸기핫케이크/딸기핫케이크+베이컨/딸기핫케이크+스크램블에그{0}", Custom String("")), Custom String("/")),
+			Empty Array)))))))))))))));
 		Global.ITEM_SCORE = Mapped Array(String Split(Custom String(
 			"0/0/0/3/3/0/0/4/0/0/3/0/0/0/0/0/0/0/0/0/0/0/0/3/4/4/6/6/5/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/{0}", Custom String(
 			"0/0/0/0/0/0/3/4/4/5/6/6/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/3/3/4/4/4/5/4/0/0/0/0/0/5/0/{0}", Custom String(
@@ -59,8 +69,9 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			"/0/0/0/0/0/5/7/0/0/3/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/5/6/6/5/6/{0}", Custom String(
 			"6/3/3/4/5/0/0/0/1/3/3/3/1/5/5/1/3/5/3/4/3/5/7/0/5/4/7/5/0/0/3/0/5/7/0/0/0/0/3/3{0}", Custom String(
 			"/4/0/0/5/0/0/0/0/0/0/0/0/0/3/4/5/7/5/7/5/4/5/0/0/0/0/3/6/6/0/0/3/0/0/0/0/0/0/0/0{0}", Custom String(
-			"/0/0/0/0/0/6/5/6/5/6/5/6/5/0/0/0/0/0/0/0/4/4"))))))), Custom String("/")), Index Of Array Value(String Split(Custom String(
-			"0/1/2/3/4/5/6/7/8/9"), Custom String("/")), Current Array Element) * 5);
+			"/0/0/0/0/0/6/5/6/5/6/5/6/5/0/0/0/0/0/0/0/4/4/1/1/1/1/1/1/0/0/0/0/0/0/0/2/0/3/3/3{0}", Custom String(
+			"/3/0/0/0/0/0/0/0/0/0/0/3/3/3/3/3/3/4/4/0/0/0/0/0/3/4/4/3/4/4/4/5/5/4/5/5/4/5/5")))))))), Custom String("/")),
+			Index Of Array Value(String Split(Custom String("0/1/2/3/4/5/6/7/8/9"), Custom String("/")), Current Array Element) * 5);
 		Global.CUTTING_NEEDED = Array(99, 5, 5, 99, 99, 5, 99, 99, 99, 3, 99, 99, 99, 99, 5, 99, 99, 99, 99, 2, 99, 99, 99, 99, 99, 99, 99,
 			99, 99, 99, 99, 99, 99, 5, 99, 99, 99, 1, 9, 9, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
 			99, 99, 99, 99, 99, 99, 5, 5, 99, 5, 5, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
@@ -70,7 +81,8 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			99, 1, 99, 5, 99, 5, 5, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
 			99, 99, 99, 99, 3, 99, 99, 99, 99, 99, 3, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
 			99, 99, 99, 99, 99, 99, 99, 99, 5, 99, 5, 5, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
-			99, 99, 99, 99, 99);
+			99, 99, 99, 99, 99, 99, 99, 3, 3, 99, 3, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
+			99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99);
 		Global.CUTTING_RESULT = Array(False, 2, 154, False, False, 6, False, False, False, 10, False, False, False, False, 15, False,
 			False, False, False, 20, False, False, False, False, False, False, False, False, False, False, False, False, False, 34, False,
 			False, False, Array(38, 39), 140, 140, False, False, False, False, False, False, False, False, False, False, False, False,
@@ -87,7 +99,10 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			231), False, False, False, False, False, Array(237, 237), False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, 267, False, 269, 270, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
-			False, False, False, False, False, False, False, False, False, False, False);
+			False, False, False, False, False, False, False, False, False, False, False, False, False, 301, 302, False, 304, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False);
 		Global.GRILLING_NEEDED = Array(99, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3, 5, 2, 3, 3, 5, 5, 5, 5, 5, 3, 3, 3, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 99, 99, 99, 99, 99, 5, 4, 3, 6, 5, 2, 2, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 5, 5,
@@ -95,7 +110,8 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 99, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
 		Global.GRILLING_RESULT = Array(False, 3, 4, False, False, 8, 11, False, False, False, False, False, False, False, 16, False, False,
 			False, False, 21, 21, False, False, False, False, False, False, False, False, False, False, 32, False, 35, 36, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
@@ -111,7 +127,11 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, 271, False, False, False, False, 274, False, False, False, False,
-			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False);
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, 303, False, False, False, 303, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False);
 		Global.FRYING_NEEDED = Array(99, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 5, 5, 5, 2, 5, 5, 5, 5, 5, 2, 2, 2, 5, 5,
 			55, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 99, 99, 99, 99, 99, 7, 5, 4, 5, 5, 5, 4, 3,
 			3, 3, 3, 3, 3, 3, 5, 7, 5, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
@@ -119,7 +139,8 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 99, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
 		Global.FRYING_RESULT = Array(False, False, False, False, False, False, 7, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
@@ -136,7 +157,10 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, 292, False, False, False, False, False, False, False, False, False, False,
-			False, False, False, False, False, False, False);
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False);
 		Global.POT_TIME = Array(False, 5, False, False, False, 5, 3, False, False, False, False, False, 7, False, False, 5, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
@@ -152,7 +176,11 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			False, False, False, False, False, False, 5, False, False, False, False, False, 5, False, False, False, False, False, 5, 7, 7,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, 5, False, False, False, False, False,
-			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False);
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False);
 		Global.POT_RESULT = Array(False, 139, False, False, False, 9, 9, False, False, False, False, False, 13, False, False, 17, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
@@ -169,7 +197,10 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			False, False, False, 256, 243, 244, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, 275,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
-			False, False, False);
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False);
 		Global.PAN_NEEDED = Array(99, 5, 5, 5, 5, 5, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 3, 5, 2, 5, 3, 5, 5, 5, 5, 5, 3, 3, 3, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 99, 99, 99, 99, 99, 5, 5, 5, 6, 5, 2, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 5, 5, 5, 5, 5, 5, 3, 5, 5, 5, 3, 5, 5, 5, 5, 3, 5, 5, 5, 5,
@@ -177,7 +208,8 @@ const DATA_INIT_CODE = `rule("Global subroutine: Data init")
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 99, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-			5, 5, 5, 5, 5, 5, 5, 5, 5);
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
 	}
 }
 
@@ -205,8 +237,12 @@ rule("Global subroutine: Data init2")
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
-			False, False, False, False, 264, False, False, False, False, 271, 272, 272, False, False, 274, False, False, 277, False, False,
-			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False);
+			False, False, False, 335, 264, False, False, False, False, 271, 272, 272, False, False, 274, False, False, 277, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, 303, False, False, False, 303, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, 336, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False);
 		Global.IMPACT_RESULT = Array(False, False, False, False, False, False, False, False, False, 10, False, False, False, False, 98, 98,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
@@ -223,25 +259,35 @@ rule("Global subroutine: Data init2")
 			236, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
 			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
-			False, 276, 293, 294, False, False);
+			False, 276, 293, 294, False, False, False, False, False, False, 306, False, 307, False, False, 305, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
+			False, False, False, False, False, False, False);
 		Global.RAW_MIX = Array(21025, 21026, 6127, 6129, 7021, 13017, 13018, 13022, 13030, 13029, 15038, 15040, 15041, 15043, 15044, 15046,
 			15048, 15051, 17018, 17119, 18021, 20038, 20040, 20042, 20043, 20045, 20046, 20049, 20052, 32038, 32041, 32042, 32043, 32047,
 			32048, 32049, 32053, 34038, 34040, 34041, 34042, 34044, 34045, 34047, 34050, 39040, 39044, 39049, 39053, 39052, 39054, 66072,
 			67072, 68072, 70077, 73075, 73077, 74075, 74076, 76085, 77085, 78085, 79085, 79084, 113125, 121127, 124127, 124130, 21022,
 			71144, 71151, 71158, 71161, 144158, 144161, 151158, 151161, 158161, 167158, 169144, 171071, 167161, 170144, 172071, 168158,
 			169151, 173071, 168161, 170151, 174071, 169161, 170158, 175071, 171161, 172158, 175144, 176161, 177158, 180144, 181071, 178161,
-			179158, 180151, 182071, 168118, 183118, 184118, 167175, 169172, 170171, 168175, 169174, 170173, 2077, 156194, 145152, 33152,
-			145195, 109195, 105109, 106145, 77199, 199211, 209209, 77211, 194201, 194196, 194197, 110214, 194216, 110194, 196218, 197218,
-			110217, 216218, 72160, 72200, 72199, 84194, 110225, 84218, 231231, 231232, 231233, 232232, 237237, 237238, 237239, 238238,
-			227227, 257243, 144246, 255243, 144248, 256243, 144250, 255245, 148143, 150143, 243258, 243193, 258260, 259193, 104114, 262184,
-			34152, 104214, 104217, 104225, 165272, 4272, 274272, 275272, 286120, 286277, 287120, 287277, 288120, 288277, 289120, 289277);
+			179158, 180151, 182071, 168118, 183118, 184118, 167175, 169172, 170171, 168175, 169174, 170173, 2077, 156194, 145152, 145195,
+			109195, 105109, 106145, 77199, 199211, 209209, 77211, 194201, 194196, 194197, 110214, 194216, 110194, 196218, 197218, 110217,
+			216218, 72160, 72200, 72199, 84194, 110225, 84218, 231231, 231232, 231233, 232232, 237237, 237238, 237239, 238238, 227227,
+			257243, 144246, 255243, 144248, 256243, 144250, 255245, 148143, 150143, 243258, 243193, 258260, 259193, 108114, 262184, 34152,
+			104214, 104217, 104225, 165272, 4272, 274272, 275272, 286120, 286277, 287120, 287277, 288120, 288277, 289120, 289277, 295303,
+			306307, 295296, 309324, 306324, 305324, 307324, 308296, 303301, 296302, 296301, 296304, 296299, 310301, 310304, 310302, 311304,
+			311299, 312299, 314304, 314299, 315299, 317299, 314302, 312302, 313302, 312301, 313301, 313304, 315301, 316301, 316304, 318304,
+			317302, 318302, 319302, 319301, 320299, 321304, 322301, 323302, 335332, 337123, 337110, 335333, 338333, 339333, 336332, 343123,
+			343110, 336333, 344333, 348333, 337299, 338299, 339299, 340123, 340110, 346123, 346110, 349123, 349110, 332303, 303262);
 		Global.RAW_RESULT = Array(28, 27, 130, 131, 23, 24, 25, 26, 27, 28, 42, 45, 47, 49, 50, 52, 53, 54, 22, 125, 29, 41, 44, 47, 48,
 			50, 51, 53, 54, 40, 44, 45, 46, 50, 51, 52, 54, 43, 46, 48, 49, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 81, 82, 83, 78, 76, 79,
 			77, 79, 87, 88, 96, 86, 97, 127, 128, 129, 131, 30, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 176, 176, 177, 177, 177,
 			178, 178, 178, 179, 179, 179, 180, 180, 180, 181, 181, 181, 183, 183, 183, 183, 184, 184, 184, 184, 185, 186, 187, 183, 183,
-			183, 184, 184, 184, 155, 152, 153, 107, 105, 106, 146, 146, 205, 209, 210, 212, 213, 214, 214, 215, 217, 218, 215, 215, 219,
-			219, 221, 222, 224, 225, 226, 226, 232, 233, 234, 234, 238, 239, 240, 240, 228, 246, 247, 248, 249, 250, 251, 252, 253, 254,
-			259, 260, 261, 261, 262, 263, 107, 215, 219, 226, 286, 287, 288, 289, 278, 279, 280, 281, 282, 283, 284, 285);
+			183, 184, 184, 184, 155, 152, 153, 105, 106, 146, 146, 205, 209, 210, 212, 213, 214, 214, 215, 217, 218, 215, 215, 219, 219,
+			221, 222, 224, 225, 226, 226, 232, 233, 234, 234, 238, 239, 240, 240, 228, 246, 247, 248, 249, 250, 251, 252, 253, 254, 259,
+			260, 261, 261, 262, 263, 107, 215, 219, 226, 286, 287, 288, 289, 278, 279, 280, 281, 282, 283, 284, 285, 308, 309, 324, 325,
+			326, 327, 328, 329, 330, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 314, 315, 316, 317, 318, 319,
+			320, 321, 322, 323, 320, 321, 322, 323, 331, 331, 331, 331, 337, 338, 339, 340, 341, 342, 340, 341, 342, 346, 347, 348, 349,
+			350, 351, 341, 342, 347, 348, 350, 351, 333, 334);
 		Global.MIXING_RECIPE = Mapped Array(Global.ITEM_NAME, Empty Array);
 		Global.MIXING_RESULT = Global.MIXING_RECIPE;
 		For Global Variable(checkingIndex, False, Count Of(Global.RAW_MIX), True);
@@ -257,18 +303,25 @@ rule("Global subroutine: Data init2")
 		Global.MENU_LIST = Array(Array(3, 4, 7, 10, 23, 24, 25, 26, 28, 27), Array(7, 23, 55, 56, 57, 58, 59, 60), Array(85, 86, 87, 88,
 			89, 90, 96), Array(7, 23, 126, 132, 133, 134, 135), Array(193, 188, 189, 190, 191, 192), Array(105, 106, 107, 146, 152, 153,
 			194, 101, 103, 109, 110, 111, 156, 218), Array(196, 202, 203, 209, 210, 211, 213, 214, 215, 219, 220, 223, 226), Array(193,
-			246, 247, 248, 249, 250, 251, 259, 260, 261, 264, 111), Array(278, 279, 280, 281, 282, 283, 284, 285, 293, 294));
-		Global.HAZARD_MENU_LIST = Array(Array(0, 0, 0, 8, 9, 11, 13, 15, 16, 20, 32, 139), Array(0, 0, 0, 3, 4, 8, 9, 10, 11, 16, 20, 35,
-			36, 139, 140), Array(0, 0, 0, 80, 91, 92, 93, 94, 95, 216), Array(0, 0, 0, 8, 9, 10, 11, 120, 123, 137, 138), Array(0, 0, 0,
-			91, 92, 94, 120, 145, 147, 148, 148, 150, 158, 162, 163, 164, 165, 166, 176, 177, 178, 179, 180, 181, 253, 254), Array(0, 0, 0,
-			1, 2, 3, 4, 33, 34, 35, 36, 77, 100, 102, 104, 108, 112, 142, 143, 144, 145, 154, 155, 195), Array(0, 0, 0, 101, 102, 103, 106,
-			109, 110, 111, 162, 163, 164, 165, 166, 194, 195, 204, 218, 84, 85, 90), Array(0, 0, 0, 190, 109, 110, 101, 102, 103, 120, 145,
-			143), Array(0, 0, 0, 162, 163, 165, 3, 4, 32, 274, 275, 271, 272));
+			246, 247, 248, 249, 250, 251, 259, 260, 261, 264, 111), Array(278, 279, 280, 281, 282, 283, 284, 285, 293, 294), Array(308,
+			310, 311, 312, 313, 324, 325, 326, 327, 328, 329, 330, 331), Array(337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348,
+			349, 350, 351));
+		Global.HAZARD_MENU_LIST = Array(Array(0, 8, 9, 11, 13, 15, 16, 20, 32, 139), Array(0, 3, 4, 8, 9, 10, 11, 16, 20, 35, 36, 139,
+			140), Array(0, 80, 91, 92, 93, 94, 95, 216), Array(0, 8, 9, 10, 11, 120, 123, 137, 138), Array(0, 91, 92, 94, 120, 145, 147,
+			148, 148, 150, 158, 162, 163, 164, 165, 166, 176, 177, 178, 179, 180, 181, 253, 254), Array(0, 1, 2, 3, 4, 33, 34, 35, 36, 77,
+			100, 102, 104, 108, 112, 142, 143, 144, 145, 154, 155, 195), Array(0, 101, 102, 103, 106, 109, 110, 111, 162, 163, 164, 165,
+			166, 194, 195, 204, 218, 84, 85, 90), Array(0, 190, 109, 110, 101, 102, 103, 120, 145, 143), Array(0, 162, 163, 165, 3, 4, 32,
+			274, 275, 271, 272, 139, 164, 166), Array(0, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 309, 314, 315,
+			316, 317, 318, 319, 320, 321, 322, 323), Array(0, 332, 333, 335, 336, 101, 102, 103, 109, 110, 111, 118, 120, 123, 138, 299,
+			306));
 		Global.FRIDGE_LIST = Array(Array(1, 5, 19, 12, 14, 18), Array(37, 1, 14, 33, 19, 5), Array(66, 72, 69, 73, 74, 75), Array(114, 14,
 			113, 121, 122, 5), Array(159, 142, 114, 69, 157, 147), Array(1, 142, 112, 100, 33, 77), Array(198, 159, 112, 100, 66, 72),
-			Array(114, 142, 184, 100, 241, 258), Array(114, 1, 290, 159, 273, 268));
+			Array(114, 142, 184, 100, 241, 258), Array(114, 1, 290, 159, 273, 268), Array(295, 296, 298, 297, 300, 299), Array(114, 332,
+			298, 100, 122, 299));
+		Global.MELT_LIST = Array(296, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329,
+			330, 331);
 		Global.stageMode = Workshop Setting Combo(Custom String("설정"), Custom String("요리 모드"), 0, Array(Custom String("클래식"),
-			Custom String("모듬회밥!"), Custom String("Taco Tuesday!")), 2);
+			Custom String("밸런스(기본값)"), Custom String("하이퍼 퓨전!")), 2);
 		Global.CUSTOMER_LIST = Array(Array(Array(Hero(Soldier: 76), Hero(Soldier: 76), Hero(Roadhog)), Array(Hero(Tracer), Hero(Tracer),
 			Hero(Soldier: 76)), Array(Hero(Soldier: 76), Hero(Soldier: 76), Hero(Roadhog)), Array(Hero(Tracer), Hero(Bastion), Hero(
 			Bastion)), Array(Hero(Hanzo), Hero(Tracer)), Array(Hero(Zarya), Hero(Bastion)), Array(Hero(Hanzo), Hero(Mercy)), Array(Hero(
@@ -292,14 +345,22 @@ rule("Global subroutine: Data init2")
 			Soldier: 76), Hero(Mauga)), Array(Hero(D.Va), Hero(Moira), Hero(Moira), Hero(Hazard), Hero(Mauga), Hero(Zarya), Hero(Zarya),
 			Hero(Zarya), Hero(D.Va))))[Global.stageMode];
 		Global.STAGE_CODE = Array(Array(Array(0), Array(2), Array(3), Array(0), Array(2), Array(0), Array(3), Array(4), Array(2), Array(1),
-			Array(4), Array(3), Array(1), Array(4), Array(1)), Array(Array(0), Array(2), Array(5), Array(6), Array(3), Array(4), Array(1),
-			Array(7), Array(Random Integer(0, 6)), Array(Random Integer(0, 7)), Array(Random Integer(0, 7)), Array(Random Integer(0, 7)),
-			Random Value In Array(Array(Array(5, 6), Array(4, 7), Array(2, 3), Array(0, 1), Array(3, 7), Array(2, 6)))), Array(Array(0),
-			Array(2), Array(3), Array(1), Array(4), Array(8), Array(6), Array(5), Array(Random Value In Array(Array(0, 1, 2, 3, 4, 5, 6,
-			8))), Array(Random Value In Array(Array(0, 1, 2, 3, 4, 5, 6, 8))), Array(Random Value In Array(Array(0, 1, 2, 3, 4, 5, 6, 8))),
-			Array(Random Value In Array(Array(0, 1, 2, 3, 4, 5, 6, 8))), Random Value In Array(Array(Array(5, 6), Array(4, 8), Array(2, 3),
-			Array(0, 1), Array(0, 3), Array(2, 6)))))[Global.stageMode];
-		Global.STAGE_NAME = String Split(Custom String("스테이크&파스타/수제 버거/치킨/피자/만두/달걀&밥/생선&밥/국수/타코"), Custom String("/"));
+			Array(4), Array(3), Array(1), Array(4), Array(1)), Array(Array(0), Array(2), Array(9), Array(5), Array(3), Array(10), Array(4),
+			Array(7), Array(Random Value In Array(Array(0, 2, 3, 4, 5, 9, 10))), Array(Random Integer(0, 10)), Array(Random Integer(0,
+			10)), Array(Random Integer(0, 10)), Random Value In Array(Array(Array(5, 6), Array(4, 8), Array(2, 3), Array(0, 1), Array(0,
+			3), Array(2, 6), Array(9, 10), Array(7, 10)))), Array(Random Value In Array(Array(Array(5, 6), Array(4, 7), Array(3, 8), Array(
+			2, 3), Array(9, 10))), Random Value In Array(Array(Array(0, 1), Array(3, 7), Array(7, 8), Array(2, 6), Array(7, 10))),
+			Random Value In Array(Array(Array(5, 6), Array(4, 7), Array(3, 8), Array(2, 3), Array(9, 10))), Random Value In Array(Array(
+			Array(0, 1), Array(3, 7), Array(7, 8), Array(2, 6), Array(7, 10))), Random Value In Array(Array(Array(5, 6), Array(4, 7),
+			Array(3, 8), Array(2, 3), Array(9, 10))), Random Value In Array(Array(Array(0, 1), Array(3, 7), Array(7, 8), Array(2, 6),
+			Array(7, 10))), Random Value In Array(Array(Array(5, 6), Array(4, 7), Array(3, 8), Array(2, 3), Array(9, 10))),
+			Random Value In Array(Array(Array(0, 1), Array(3, 7), Array(7, 8), Array(2, 6), Array(7, 10))), Random Value In Array(Array(
+			Array(0, 1, 3), Array(2, 5, 6), Array(3, 4, 7), Array(3, 7, 8), Array(8, 9, 10))), Random Value In Array(Array(Array(0, 1, 3),
+			Array(2, 5, 6), Array(3, 7, 8), Array(3, 7, 10), Array(8, 9, 10))), Random Value In Array(Array(Array(0, 1, 3), Array(2, 5, 6),
+			Array(3, 4, 7), Array(3, 7, 10), Array(8, 9, 10))), Random Value In Array(Array(Array(0, 1, 3), Array(2, 5, 6), Array(3, 4, 7),
+			Array(3, 7, 8), Array(3, 7, 10), Array(8, 9, 10))), Random Value In Array(Array(Array(0, 1, 3), Array(2, 5, 6), Array(3, 4, 7),
+			Array(3, 7, 8), Array(3, 7, 10), Array(8, 9, 10)))))[Global.stageMode];
+		Global.STAGE_NAME = String Split(Custom String("스테이크&파스타/수제 버거/치킨/피자/만두/달걀&밥/생선&밥/국수/타코/아이스크림/핫케이크"), Custom String("/"));
 		Global.upgradePrice = Array(Array(50, 250), Array(100, 100), Array(100, 100), Array(100, 100));
 		Global.UPGRADE_CODE = Array(Array(265, -1), Array(0, 1), Array(2, 3), Array(4, 5));
 		Global.KNIFE = Array(61, 265, 62, 63, 64, 65);
