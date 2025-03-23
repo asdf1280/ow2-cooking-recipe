@@ -390,7 +390,7 @@ let FRIDGE_LISTS = "";
 
 const CatchKeywords = ['ITEM_NAME', 'ITEM_COLOR', 'CUTTING_RESULT', 'GRILLING_RESULT', 'FRYING_RESULT', 'POT_RESULT', 'PAN_RESULT', 'IMPACT_RESULT', 'RAW_MIX', 'RAW_RESULT', 'MENU_LIST', 'HAZARD_MENU_LIST', 'STAGE_NAME', 'FRIDGE_LIST'];
 
-const ColorsSupported = "ABCDFGHLMOPRSTVWY";
+const ColorsSupported = "ABCDFGHLMOPRSTVWYNQX";
 
 for (let i = 0; i < lines.length; i++) {
 	let line = lines[i];
@@ -682,7 +682,7 @@ function calculateRecipeV2(recipeId, stageId) {
 			/**
 			 * @type {Recipe}
 			 */
-			let m = {
+			let rc = {
 				ingredients: [],
 				method: "fridge",
 				itemId: nid,
@@ -690,24 +690,49 @@ function calculateRecipeV2(recipeId, stageId) {
 				repeat: 1
 			}
 			if (recipe === null) {
-				result = m;
+				result = rc;
 			} else {
-				recipe.ingredients.push(m)
+				recipe.ingredients.push(rc)
 			}
 
 			if (recipeReversedMap[nid] === undefined || fridge[stageId].includes(nid)) {
 			} else if (inventory.includes(nid)) {
 				inventory.splice(inventory.indexOf(nid), 1);
-				m.method = "premade";
+				rc.method = "premade";
 			} else {
-				let d = recipeReversedMap[nid][0];
-				m.method = d.method;
-				m.fullOutput = d.output;
-				inventory.push(...d.output);
+				let possibleMethods = recipeReversedMap[nid];
+
+				// Initialize a zero array of the same length as possibleMethods.
+				let scoreArray = new Array(possibleMethods.length).fill(0);
+				// If the method is "mix" and the ingredient equals output, subtract 100 from the score.
+				for (let i = 0; i < possibleMethods.length; i++) {
+					let method = possibleMethods[i];
+					if (method.method === "mix") {
+						if (method.items[0] === method.output[0] || method.items[1] === method.output[0]) {
+							scoreArray[i] -= 100;
+						}
+					}
+				}
+
+				let maxScore = -Infinity;
+				let maxIndex = -1;
+				for (let i = 0; i < possibleMethods.length; i++) {
+					let method = possibleMethods[i];
+					let score = scoreArray[i];
+					if(maxScore < score || maxIndex === -1) {
+						maxScore = score;
+						maxIndex = i;
+					}
+				}
+
+				let chosenMethod = possibleMethods[maxIndex];
+				rc.method = chosenMethod.method;
+				rc.fullOutput = chosenMethod.output;
+				inventory.push(...chosenMethod.output);
 				inventory.splice(inventory.indexOf(nid), 1);
 				let insertAt = 0;
-				d.items.forEach(element => {
-					calculationQueue.splice(insertAt++, 0, [element, m]);
+				chosenMethod.items.forEach(element => {
+					calculationQueue.splice(insertAt++, 0, [element, rc]);
 				});
 			}
 		}

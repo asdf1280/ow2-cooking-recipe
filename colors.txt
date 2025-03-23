@@ -27,3 +27,6 @@ T - turquoise
 V - rgb(0, 125, 0);
 W - white
 Y - yellow
+N - 
+Q - 
+X - 
