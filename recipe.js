@@ -490,7 +490,7 @@ for (let i = 0; i < foodNames.length; i++) {
 }
 
 const itemColors = parseSlashStrings(ITEM_COLORS);
-console.log(itemColors);
+// console.log(itemColors);
 
 itemColors.forEach(element => {
 	if (!ColorsSupported.includes(element)) {
@@ -550,8 +550,6 @@ const panResults = parseWorkshopArray(PAN_RESULTS)[0];
 const impactResults = parseWorkshopArray(IMPACT_RESULTS)[0];
 const mixRecipes = parseWorkshopArray(MIX_RECIPES)[0];
 const mixResults = parseWorkshopArray(MIX_RESULTS)[0];
-
-console.log("cuttingResults", cuttingResults);
 
 let menus = parseWorkshopArray(MENU_LISTS)[0];
 let hazardMenus = parseWorkshopArray(HAZARD_MENU_LISTS)[0];
@@ -673,7 +671,14 @@ function calculateRecipeV2(recipeId, stageId) {
 		 */
 		let inventory = [];
 
+		let startAt = Date.now();
+
 		while (calculationQueue.length > 0) {
+			if (Date.now() - startAt > 2000) {
+				// Infinite loop prevention
+				throw new Error("Infinite loop detected in recipe calculation. Recipe ID: " + itemId + " Name: " + foodNames[itemId]);
+			}
+
 			/**
 			 * @type {[number, Recipe]}
 			 */
@@ -717,9 +722,8 @@ function calculateRecipeV2(recipeId, stageId) {
 				let maxScore = -Infinity;
 				let maxIndex = -1;
 				for (let i = 0; i < possibleMethods.length; i++) {
-					let method = possibleMethods[i];
 					let score = scoreArray[i];
-					if(maxScore < score || maxIndex === -1) {
+					if (maxScore < score || maxIndex === -1) {
 						maxScore = score;
 						maxIndex = i;
 					}
@@ -799,7 +803,7 @@ function calculateRecipeV2(recipeId, stageId) {
 
 	let recipe = calculateFullRecipe(recipeId);
 
-	console.log("Full recipe", recipe)
+	// console.log("Full recipe", recipe)
 
 	// Iterate backward, and eliminate repetitive recipes
 	/**
@@ -915,20 +919,57 @@ function htmlItemName(itemId) {
 }
 
 function humanReadableRecipe(recipeId, stageId) {
-	let [recipe, ingredients] = explainRecipe(recipeId, stageId);
+	try {
+		let [recipe, ingredients] = explainRecipe(recipeId, stageId);
 
-	// 탄 음식
-	if (recipeId === 0) recipe = ["아무 재료나 계속 가열하기."]
+		// 탄 음식
+		if (recipeId === 0) recipe = ["아무 재료나 계속 가열하기."]
 
-	let recipeStr = recipe.map((v) => `<div class='block'>${v}</div>`).join("\n");
-	let ingredientsStr = ``;
-	for (let itemId in ingredients) {
-		let count = ingredients[itemId];
-		ingredientsStr += `${htmlItemName(itemId)} x ${count}\n`;
+		let recipeStr = recipe.map((v) => `<div class='block'>${v}</div>`).join("\n");
+		let ingredientsStr = ``;
+		for (let itemId in ingredients) {
+			let count = ingredients[itemId];
+			ingredientsStr += `${htmlItemName(itemId)} x ${count}\n`;
+		}
+
+		let result = `재료:\n\n${ingredientsStr}\n\n조리법:\n\n${recipeStr}\n\n\n'${htmlItemName(recipeId)}' 완성!`;
+		return result;
+	} catch (e) {
+		console.error(e);
+		if(typeof e == "string" && e.includes("Infinite loop detected")) {
+			return "ERROR: 조리법을 계산하는 도중 무한 루프에 빠졌습니다. 스크립트가 잘못되었습니다. 버그를 제보해 주세요.";
+		} else {
+			return "ERROR: 조리법을 계산하는 도중 오류가 발생했습니다. 스크립트가 잘못되었습니다. 버그를 제보해 주세요.";
+		}
+	}
+}
+
+function testRecipe() {
+	// Print stage name
+	// Iterate over each recipe in that stage
+	// First, print its ID and name
+	// Try to calculate 'humanReadableRecipe' for that recipe
+	// Print the result (OK)
+
+	let suc = 0, fail = 0;
+
+	for (let i = 0; i < stageNames.length; i++) {
+		let recipes = menus[i];
+		for (let j = 0; j < recipes.length; j++) {
+			let recipeId = recipes[j];
+			let hrr = humanReadableRecipe(recipeId, i);
+			if(hrr.startsWith("ERROR:")) {
+				console.log("Recipe ID: ", recipeId, foodNames[recipeId]);
+				console.log("ERROR: ", hrr);
+				fail++;
+				continue;
+			} else {
+				suc++;
+			}
+		}
 	}
 
-	let result = `재료:\n\n${ingredientsStr}\n\n조리법:\n\n${recipeStr}\n\n\n'${htmlItemName(recipeId)}' 완성!`;
-	return result;
+	console.log("Total recipes: ", suc + fail, "Success: ", suc, "Fail: ", fail);
 }
 
 // menus.forEach(element => {
